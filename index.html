@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/tabs.js" defer></script>
   <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
+  <script src="js/terms.js" defer></script>
 </head>
 <body>
   <section class="intro" aria-labelledby="about-heading">
@@ -27,12 +28,22 @@
     <button type="button" id="artist-tab" role="tab" aria-selected="false" aria-controls="artist" tabindex="-1">Artist</button>
   </div>
   <main class="workspace">
-    <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0"></section>
+    <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
+      <article class="technical-project">
+        <h2>Blender Addon &amp; Mod Loader</h2>
+        <p><strong>Blender Addon:</strong> Imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
+          <strong>Mod Loader:</strong> Injects custom assets into the game.</p>
+        <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
+          <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
+          <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
+        </video>
+      </article>
+    </section>
     <section id="artist" role="tabpanel" aria-labelledby="artist-tab" tabindex="0" hidden>
       <section class="gallery" aria-labelledby="gallery-title">
         <h2 id="gallery-title">3D Model Showcase</h2>
 		<p>I'm not only the creator of IDVMI-Tools, but also a user of it! I'm both a developer and an artist, working with other artists.</p>
-        <p class="gallery-note">This showcase features a selection of my models. All models were created using kitbashing.</p>
+        <p class="gallery-note">This showcase features a selection of my models. All models were created using <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="kitbashing-definition">kitbashing</button><span class="term-definition" id="kitbashing-definition">Creating a new model by combining and adapting parts from existing models.</span></span>.</p>
         <div class="gallery-stage">
           <button type="button" id="previous-art" aria-label="Previous artwork" disabled>‹</button>
           <div class="gallery-cards"></div>
@@ -55,5 +66,10 @@
       </section>
     </section>
   </main>
+  <dialog class="term-dialog" aria-labelledby="term-title">
+    <h2 id="term-title"></h2>
+    <p id="term-description"></p>
+    <form method="dialog"><button style="text-align:center;">Close</button></form>
+  </dialog>
 </body>
 </html>

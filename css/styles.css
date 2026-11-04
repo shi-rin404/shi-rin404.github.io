@@ -305,3 +305,94 @@ body {
     width: 80%;
   }
 }
+
+.technical-term {
+  position: relative;
+  display: inline-block;
+}
+
+.technical-term > button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #b7cbff;
+  font: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.technical-term > button:focus-visible {
+  outline-offset: 3px;
+}
+
+.term-definition,
+.term-dialog {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--inactive-border);
+  border-radius: 0.375rem;
+  background: var(--active-surface);
+  color: var(--text);
+}
+
+.term-definition {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 100%;
+  inset-inline-end: 0;
+  width: max-content;
+  max-width: min(15rem, 75vw);
+  text-align: start;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .technical-term:hover .term-definition {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.technical-term:focus-within .term-definition {
+  opacity: 1;
+}
+
+.term-dialog {
+  box-sizing: border-box;
+  width: min(28rem, 90vw);
+}
+
+.term-dialog::backdrop {
+  background: rgb(0 0 0 / 70%);
+}
+
+.term-dialog form {
+  text-align: end;
+}
+
+.term-dialog button {
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--inactive-border);
+  border-radius: 0.25rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.term-dialog button:hover {
+  background: var(--inactive-surface);
+}
+
+.technical-project {
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-block: 1.5rem;
+}
+
+.technical-project video {
+  display: block;
+  width: 100%;
+}
