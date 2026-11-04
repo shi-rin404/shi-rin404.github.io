@@ -396,3 +396,47 @@ body {
   display: block;
   width: 100%;
 }
+
+.technical-project summary {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  background: var(--active-surface);
+  cursor: pointer;
+}
+
+.technical-project summary h2 {
+  display: inline;
+}
+
+.technical-project-content {
+  padding-block-end: 0.75rem;
+}
+
+@supports selector(details::details-content) {
+  .technical-project::details-content {
+    height: 0;
+    overflow: clip;
+    interpolate-size: allow-keywords;
+  }
+
+  .technical-project[open]::details-content {
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .technical-project::details-content {
+      transition: height 240ms ease, content-visibility 240ms allow-discrete;
+    }
+  }
+}
+
+.technical-project + .technical-project {
+  margin-block-start: 1rem;
+}
+
+.project-screenshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-block-start: 1rem;
+}

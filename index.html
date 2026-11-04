@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#252e38">
-  <title>Portfolio ⋆ ˚｡⋆୨୧˚</title>
+  <title>Portfolio | Technical Artist (Tools & Pipeline)</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/tabs.js" defer></script>
   <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
@@ -15,11 +15,11 @@
     <div>
       <h1 id="about-heading">About Me</h1>
       <ul>
-        <li>4th-year Information Technologies student</li>
+        <li>4th-year Information Technologies student aiming to become a Technical Artist</li>
         <li>Developing game development and modding tools</li>
         <li>Founded a game modding community</li>
-        <li>Analyze a custom mobile game engine and reverse-engineer custom binary formats</li>
-        <li>Will be available for a long-term internship starting in July 2027</li>
+        <li>Analyzing a custom mobile game engine and reverse-engineering custom binary formats</li>
+        <li>Available for a long-term internship starting in July 2027</li>
       </ul>
     </div>
   </section>
@@ -29,15 +29,48 @@
   </div>
   <main class="workspace">
     <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
-      <article class="technical-project">
-        <h2>Blender Addon &amp; Mod Loader</h2>
-        <p><strong>Blender Addon:</strong> Imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
-          <strong>Mod Loader:</strong> Injects custom assets into the game.</p>
-        <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
-          <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
-          <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
-        </video>
-      </article>
+      <details class="technical-project" open>
+        <summary><h2>Blender Addon &amp; Asset Lookup &amp; Mod Loader</h2></summary>
+        <div class="technical-project-content">
+          <p><strong>Blender Addon:</strong> Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
+            <strong>Mod Loader:</strong> Injects custom assets into the game.</p>
+          <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
+            <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
+            <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
+          </video>
+        </div>
+      </details>
+      <details class="technical-project" open>
+        <summary><h2>HLSL and Assembly Analysis</h2></summary>
+        <div class="technical-project-content">
+          <p>I analyzed the game's pixel shader structure and injected HLSL assembly into <strong>every pixel shader in the game</strong> without causing a crash.</p>
+          <p><strong>Code Logic:</strong> The code selects an unused texture register and manages it through <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="migoto-definition">3DMigoto</button><span class="term-definition" id="migoto-definition">A general-purpose DirectX 11 modding tool.</span></span> (<a href="https://github.com/bo3b/3Dmigoto">bo3b/3Dmigoto on GitHub</a>). If the reserved register is in use, the code reads a frame counter from the script and uses it to transition between two textures.</p>
+          <p><strong>Fun Fact:</strong> I wrote the assembly code without AI assistance.</p>
+          <video controls playsinline preload="metadata" aria-label="HLSL assembly demonstration">
+            <source src="assets/video/HLSL_Assembly.mp4" type="video/mp4">
+            <a href="assets/video/HLSL_Assembly.mp4">Open the demonstration video</a>
+          </video>
+          <a href="assets/screenshot/HLSL_Assembly.png" target="_blank" rel="noopener" aria-label="Open full-resolution HLSL assembly screenshot in a new tab">
+            <img class="project-screenshot" src="assets/screenshot/HLSL_Assembly.png" alt="HLSL assembly analysis screenshot" loading="lazy">
+          </a>
+        </div>
+      </details>
+      <details class="technical-project" open>
+        <summary><h2>My Modding Documentations</h2></summary>
+        <div class="technical-project-content">
+          <p class="gallery-note">This section features a selection of the modding documentation I wrote.</p>
+          <ul>
+            <li><a href="https://docs.google.com/document/d/1KwF13S4HrqDLjYeicop5QN5UDecQEKmf5UVIbp0bJhA">3DMigoto Modding Guide for IDV</a></li>
+            <li><a href="https://docs.google.com/document/d/1YGsyHiz0kGDzgeY4xZThrspOgjvCoZp2c5zQG95Pf68/">Common 3DMigoto Issues</a></li>
+          </ul>
+          <a href="assets/screenshot/Mesh%20Finder%20Doc.png" target="_blank" rel="noopener" aria-label="Open full-resolution Mesh Finder documentation screenshot in a new tab">
+            <img class="project-screenshot" src="assets/screenshot/Mesh%20Finder%20Doc.png" alt="Mesh Finder documentation screenshot" loading="lazy">
+          </a>
+          <a href="assets/screenshot/Bone%20Name%20Matcher%20Doc.png" target="_blank" rel="noopener" aria-label="Open full-resolution Bone Name Matcher documentation screenshot in a new tab">
+            <img class="project-screenshot" src="assets/screenshot/Bone%20Name%20Matcher%20Doc.png" alt="Bone Name Matcher documentation screenshot" loading="lazy">
+          </a>
+        </div>
+      </details>
     </section>
     <section id="artist" role="tabpanel" aria-labelledby="artist-tab" tabindex="0" hidden>
       <section class="gallery" aria-labelledby="gallery-title">
