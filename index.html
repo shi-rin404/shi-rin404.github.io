@@ -1,8 +1,58 @@
-<html>
-  <head>
-    <title>31</title>
-  </head>
-  <body>
-    
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#252e38">
+  <title>Portfolio ⋆ ˚｡⋆୨୧˚</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/tabs.js" defer></script>
+  <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
+</head>
+<body>
+  <section class="intro" aria-labelledby="about-heading">
+    <div>
+      <h1 id="about-heading">About Me</h1>
+      <ul>
+        <li>4th-year Information Technologies student</li>
+        <li>Developing game development and modding tools</li>
+        <li>Founded a game modding community</li>
+        <li>Analyze a custom mobile game engine and reverse-engineer custom binary formats</li>
+        <li>Will be available for a long-term internship starting in July 2027</li>
+      </ul>
+    </div>
+  </section>
+  <div class="tab-bar" role="tablist" aria-label="Portfolio">
+    <button type="button" id="technical-tab" role="tab" aria-selected="true" aria-controls="technical">Technical</button>
+    <button type="button" id="artist-tab" role="tab" aria-selected="false" aria-controls="artist" tabindex="-1">Artist</button>
+  </div>
+  <main class="workspace">
+    <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0"></section>
+    <section id="artist" role="tabpanel" aria-labelledby="artist-tab" tabindex="0" hidden>
+      <section class="gallery" aria-labelledby="gallery-title">
+        <h2 id="gallery-title">3D Model Showcase</h2>
+        <p>This showcase features a selection of my models. All models were created using kitbashing.</p>
+        <div class="gallery-stage">
+          <button type="button" id="previous-art" aria-label="Previous artwork" disabled>‹</button>
+          <div class="gallery-cards"></div>
+          <button type="button" id="next-art" aria-label="Next artwork" disabled>›</button>
+        </div>
+        <p id="art-status" role="status">Loading artworks…</p>
+        <div class="gallery-actions" hidden>
+          <button type="button" id="art-source"><span aria-hidden="true">▧</span> Source</button>
+          <button type="button" id="art-designer"><span aria-hidden="true">✎</span> Designer</button>
+        </div>
+        <div class="gallery-filters" role="group" aria-label="Filter artworks">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="commissions" aria-pressed="false">Commissions Only</button>
+          <button type="button" data-filter="mine" aria-pressed="false">My Designs Only</button>
+        </div>
+        <dialog id="art-details" aria-label="Artwork details">
+          <div id="art-details-body"></div>
+          <form method="dialog"><button>Close</button></form>
+        </dialog>
+      </section>
+    </section>
+  </main>
+</body>
 </html>
