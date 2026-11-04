@@ -170,6 +170,20 @@ body {
   text-align: center;
 }
 
+.gallery h2 {
+  color: #e4e9f3;
+}
+
+.gallery-note {
+  margin: 0.5rem 0 1.25rem;
+  color: #aebbd0;
+  font-size: 0.875rem;
+}
+
+#art-status {
+  color: #b9c5d8;
+}
+
 .gallery-stage {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
