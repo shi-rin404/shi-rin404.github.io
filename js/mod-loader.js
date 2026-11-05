@@ -58,6 +58,9 @@
       if (dialog.open) dialog.close();
       trigger.hidden = true;
       if (fromLink) {
+        for (let section = frame.closest('details'); section; section = section.parentElement.closest('details')) {
+          section.open = false;
+        }
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       } else {
         frame.focus();
@@ -80,6 +83,10 @@
     const url = new URL(window.location.href);
     url.hash = fragment.toString();
     window.history.replaceState(window.history.state, '', url);
-    if (key) unlock(key, true);
+    if (key) {
+      window.history.scrollRestoration = 'manual';
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      unlock(key, true);
+    }
   }
 })();
