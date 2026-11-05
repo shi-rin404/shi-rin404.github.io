@@ -19,6 +19,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto minmax(min-content, 1fr);
 }
 
@@ -144,6 +145,7 @@ body {
 }
 
 .workspace {
+  overflow-wrap: anywhere;
   background: var(--workspace-surface);
   background-clip: content-box;
   padding-inline: var(--section-padding);
@@ -574,5 +576,17 @@ body {
 @media (max-width: 40rem) {
   .language-switch {
     grid-row: 1;
+  }
+}
+
+@media (max-width: 40rem) {
+  body {
+    overflow-x: clip;
+  }
+}
+
+@media (hover: none) {
+  .technical-term:focus-within .term-definition {
+    opacity: 0;
   }
 }
