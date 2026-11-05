@@ -29,13 +29,6 @@
     if (submit.disabled) return;
     submit.disabled = true;
     trigger.disabled = true;
-    if (fromLink) {
-      document.querySelector('#technical-tab').click();
-      for (let section = trigger.closest('details'); section; section = section.parentElement.closest('details')) {
-        section.open = true;
-      }
-    }
-    form.querySelector('#cancel-mod-loader').disabled = true;
     status.textContent = 'Unlocking…';
     let reader;
     try {
@@ -64,8 +57,11 @@
       frame.hidden = false;
       if (dialog.open) dialog.close();
       trigger.hidden = true;
-      if (fromLink) frame.scrollIntoView({ block: 'nearest' });
-      frame.focus();
+      if (fromLink) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } else {
+        frame.focus();
+      }
     } catch {
       if (!dialog.open) dialog.showModal();
       status.textContent = 'Could not load the protected details. Open the site over HTTP or HTTPS and try again.';
