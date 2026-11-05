@@ -29,9 +29,9 @@
   <span data-copy="lighting-information-precomputed-and-stored-in">Önceden hesaplanıp dokuya kaydedilen aydınlatma bilgisi.</span>
   <span data-copy="open-the-demonstration-video">Demo videosunu aç</span>
   <span data-copy="mesh-importer-exporter">Mesh İçe ve Dışa Aktarma</span>
-  <span data-copy="other-people-had-already-reverse-engineered">Oyunun mesh biçiminin büyük kısmı daha önce başkaları tarafından çözülmüştü. Ben biçimin üç bölümünü tersine mühendislikle çözdüm.</span>
+  <span data-copy="other-people-had-already-reverse-engineered">Oyunun [[mesh]] biçiminin büyük kısmı daha önce başkaları tarafından çözülmüştü. Ben biçimin üç bölümünü tersine mühendislikle çözdüm.</span>
   <span data-copy="bone-based-collider-cylinders">Kemiklere bağlı silindir collider’lar.</span>
-  <span data-copy="idvmi-tools-generates-custom-colliders-in">IDVMI-Tools dışa aktarım sırasında oyunun [[binary]] biçimine uygun collider’lar üretir.</span>
+  <span data-copy="idvmi-tools-generates-custom-colliders-in">IDVMI-Tools dışa aktarım sırasında oyunun [[binary]] biçimine uygun [[collider]]’lar üretir.</span>
   <span data-copy="see-collider-view">Collider görünümünü aç</span>
   <span data-copy="lod-data">LOD verisi.</span>
   <span data-copy="i-identified-the-table-s-position">Tablonun konumunu ve uzunluğunu belirledim. Araç ham veriyi içe aktarırken saklıyor ve dışa aktarırken dosyaya geri yazıyor.</span>
@@ -40,7 +40,7 @@
   <span data-copy="the-biggest-challenge-for-me-was">En zor kısım oyunun 4×4 kemik matrislerini dönüştürmekti. Oyun, dinlenme pozunun dönüşümlerini satır öncelikli düzende saklıyor. Kaynak matrislerin transpozunu alıp Blender’ın koordinat sistemine dönüştürüyor, Edit Mode’daki kemik eksenleri için ayrıca düzeltme uyguluyorum.</span>
   <span data-copy="animation-importer-exporter">Animasyon İçe ve Dışa Aktarma</span>
   <span data-copy="i-decoded-the-animation-format-except">Animasyon biçimini çözdüm. Checksum olduğunu düşündüğüm alanı henüz doğrulamadım. Geçici olarak position, rotation ve scale key diye adlandırdığım alanların işlevi de belirsiz.</span>
-  <span data-copy="each-packed-quaternion-is-a-little">Her paketlenmiş quaternion, little-endian düzende saklanan 32 bitlik bir sözcük. Bitler en anlamlıdan en az anlamlıya doğru şöyle sıralanıyor.</span>
+  <span data-copy="each-packed-quaternion-is-a-little">Her paketlenmiş [[quaternion]], little-endian düzende saklanan 32 bitlik bir sözcük. Bitler en anlamlıdan en az anlamlıya doğru şöyle sıralanıyor.</span>
   <span data-copy="2-bits-for-the">2 bit:</span>
   <span data-copy="selector">selector</span>
   <span data-copy="an-index-from-0-to-3">Atlanan X, Y, Z veya W bileşenini belirten 0 ile 3 arasında bir indis. Çözücü, bu bileşeni birim quaternion normundan hesaplar.</span>
@@ -59,7 +59,7 @@
   <span data-copy="and">ve</span>
   <span data-copy="i-integrated-my-asset-lookup-implementation">[[asset|Asset]] arama kodumu şu projenin arşiv çıkarma koduyla birleştirdim:</span>
   <span data-copy="prefab-binary-converter">Prefab İkili Biçim Dönüştürücüsü</span>
-  <span data-copy="i-had-my-own-copies-of">Oyunun eski XML prefab dosyalarının kopyaları elimdeydi. Oyun yeni motora geçince [[binary]] XML biçimi kullanmaya başladı.</span>
+  <span data-copy="i-had-my-own-copies-of">Oyunun eski XML [[prefab]] dosyalarının kopyaları elimdeydi. Oyun yeni motora geçince [[binary]] XML biçimi kullanmaya başladı.</span>
   <span data-copy="we">Biz</span>
   <span data-copy="people-in-the-modding-community">Modlama topluluğundaki kişiler.</span>
   <span data-copy="spent-a-while-editing-the-new">bir süre yeni prefab dosyalarını hex editörde düzenleyip oyuna yükledik. Değişikliklerin oyundaki etkisini görmek, bazı alanların işlevini anlamama ve biçimi çözmeme yardımcı oldu.</span>
@@ -76,7 +76,7 @@
   <span data-copy="unlock-mod-loader-details">Mod yükleyici ayrıntılarının kilidini aç</span>
   <span data-copy="mod-loader-details">Mod yükleyici ayrıntıları</span>
   <span data-copy="hlsl-analysis-and-assembly-injection">HLSL Analizi ve Assembly Enjeksiyonu</span>
-  <span data-copy="i-analyzed-the-game-s-pixel">Oyunun pixel shader yapısını inceledim. Oyunda iki doku arasında geçiş yapmak için bir shader varyantına HLSL assembly kodu ekledim.</span>
+  <span data-copy="i-analyzed-the-game-s-pixel">Oyunun [[shader|pixel shader]] yapısını inceledim. Oyunda iki doku arasında geçiş yapmak için bir shader varyantına HLSL assembly kodu ekledim.</span>
   <span data-copy="code-logic">Kodun işleyişi:</span>
   <span data-copy="the-patch-uses">Yama şu aracı kullanıyor:</span>
   <span data-copy="a-general-purpose-directx-11-modding">DirectX 11 için genel amaçlı bir modlama aracı.</span>
@@ -128,4 +128,9 @@
   <span data-copy="cheat-engine-definition">Çalışan bir programın belleğini incelemek ve değiştirmek için kullanılan bir araç.</span>
   <span data-copy="term-asset">Bir oyunun kullandığı model, doku, ses veya animasyon gibi bir kaynak.</span>
   <span data-copy="term-binary">Verilerin düz metin yerine, dosya biçiminin belirlediği bayt düzeninde saklanması.</span>
+  <span data-copy="term-mesh">Bir 3B modelin köşe, kenar ve yüzlerden oluşan geometrisi.</span>
+  <span data-copy="term-collider">Oyun motorunun çarpışma hesabında kullandığı görünmez şekil.</span>
+  <span data-copy="term-quaternion">Üç boyutlu dönüşleri dört bileşenle temsil eden matematiksel yapı.</span>
+  <span data-copy="term-prefab">Oyunda tekrar kullanılabilen nesne veya nesne grubu şablonu.</span>
+  <span data-copy="term-shader">Ekrana çizilen bir pikselin rengini hesaplayan GPU programı.</span>
 </template>

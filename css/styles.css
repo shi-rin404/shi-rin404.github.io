@@ -572,7 +572,3 @@ body {
     grid-row: 1;
   }
 }
-
-html:not([lang="tr"]) .translation-glossary {
-  display: none;
-}
