@@ -427,6 +427,10 @@ body {
     height: auto;
   }
 
+  .technical-project[open]:has(.technical-term:is(:hover, :focus-within))::details-content {
+    overflow: visible;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .technical-project::details-content {
       transition: height 240ms ease, content-visibility 240ms allow-discrete;

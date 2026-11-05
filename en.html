@@ -8,7 +8,7 @@
   <span data-copy="4th-year-information-technologies-student-aiming">4th-year Information Technologies student aiming to become a Technical Artist</span>
   <span data-copy="developing-game-development-and-modding-tools">Developing game development and modding tools</span>
   <span data-copy="founded-a-game-modding-community">Founded a game modding community</span>
-  <span data-copy="analyzing-a-custom-mobile-game-engine">Analyzing a custom mobile game engine and reverse-engineering custom binary formats</span>
+  <span data-copy="analyzing-a-custom-mobile-game-engine">Analyzing a custom mobile game engine and reverse-engineering custom [[binary|binary]] formats</span>
   <span data-copy="available-for-a-long-term-internship">Available for a long-term internship starting in July 2027</span>
   <span data-copy="technical">Technical</span>
   <span data-copy="artist">Artist</span>
@@ -17,9 +17,9 @@
   <span data-copy="summary">Summary</span>
   <span data-copy="detailed">Detailed</span>
   <span data-copy="blender-addon">Blender Addon:</span>
-  <span data-copy="retrieves-assets-via-lookup-imports-exports">Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.</span>
+  <span data-copy="retrieves-assets-via-lookup-imports-exports">Retrieves [[asset|assets]] via lookup, imports/exports meshes and animations between Blender and the game's custom [[binary|binary]] formats.</span>
   <span data-copy="mod-loader">Mod Loader:</span>
-  <span data-copy="loads-custom-assets-in-game-and">Loads custom assets in-game and automates the asset-path change users previously made in </span>
+  <span data-copy="loads-custom-assets-in-game-and">Loads custom [[asset|assets]] in-game and automates the [[asset]] path change users previously made in </span>
   <span data-copy="loads-custom-assets-in-game-and-after-cheat-engine">.</span>
   <span data-copy="video-summary">Video Summary:</span>
   <span data-copy="import-game-models-into-blender-for">Import game models into Blender for</span>
@@ -29,9 +29,9 @@
   <span data-copy="lighting-information-precomputed-and-stored-in">Lighting information precomputed and stored in a texture.</span>
   <span data-copy="open-the-demonstration-video">Open the demonstration video</span>
   <span data-copy="mesh-importer-exporter">Mesh Importer/Exporter</span>
-  <span data-copy="other-people-had-already-reverse-engineered">Other people had already reverse-engineered much of the game's mesh format. I reverse-engineered three parts of the format:</span>
+  <span data-copy="other-people-had-already-reverse-engineered">Other people had already reverse-engineered much of the game's [[mesh|mesh]] format. I reverse-engineered three parts of the format:</span>
   <span data-copy="bone-based-collider-cylinders">Bone-based collider cylinders.</span>
-  <span data-copy="idvmi-tools-generates-custom-colliders-in">IDVMI-Tools generates custom colliders in the game's binary format on export.</span>
+  <span data-copy="idvmi-tools-generates-custom-colliders-in">IDVMI-Tools generates custom [[collider|colliders]] in the game's [[binary|binary]] format on export.</span>
   <span data-copy="see-collider-view">See Collider View</span>
   <span data-copy="lod-data">LOD data.</span>
   <span data-copy="i-identified-the-table-s-position">I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</span>
@@ -40,7 +40,7 @@
   <span data-copy="the-biggest-challenge-for-me-was">The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes.</span>
   <span data-copy="animation-importer-exporter">Animation Importer/Exporter</span>
   <span data-copy="i-decoded-the-animation-format-except">I decoded the animation format except for a suspected checksum field and the purpose of fields provisionally labeled position, rotation, and scale keys.</span>
-  <span data-copy="each-packed-quaternion-is-a-little">Each packed quaternion is a little-endian 32-bit word. From the most significant bits to the least significant:</span>
+  <span data-copy="each-packed-quaternion-is-a-little">Each packed [[quaternion|quaternion]] is a little-endian 32-bit word. From the most significant bits to the least significant:</span>
   <span data-copy="2-bits-for-the">2 bits for the</span>
   <span data-copy="selector">selector</span>
   <span data-copy="an-index-from-0-to-3">An index from 0 to 3 that identifies the omitted component (X, Y, Z, or W). The decoder reconstructs it from the unit quaternion norm.</span>
@@ -50,16 +50,16 @@
   <span data-copy="the-decoder-reconstructs-the-omitted-component">The decoder reconstructs the omitted component using the unit quaternion norm. It assigns A, B, and C in reverse cyclic order through X, Y, Z, and W, starting immediately before the omitted component. For example, if the selector omits Y, then A maps to X, B to W, and C to Z.</span>
   <span data-copy="asset-lookup">Asset Lookup</span>
   <span data-copy="i-disassembled-the-game-s-engine">I disassembled the game's engine DLL using </span>
-  <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> and IDA, picked a virtual asset path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</span>
+  <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> and IDA, picked a virtual [[asset|asset]] path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</span>
   <span data-copy="searching-the-dll-for-strings-led">Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</span>
   <span data-copy="i-worked-out-the-lookup-logic">I worked out the lookup logic and gave my pseudocode to AI to implement the</span>
   <span data-copy="thy-parser">THY parser</span>
   <span data-copy="asset-lookup-alt">Asset lookup</span>
   <span data-copy="functions">functions.</span>
   <span data-copy="and">and</span>
-  <span data-copy="i-integrated-my-asset-lookup-implementation">I integrated my asset lookup implementation with the asset extraction code from</span>
+  <span data-copy="i-integrated-my-asset-lookup-implementation">I integrated my [[asset|asset]] lookup implementation with the asset extraction code from</span>
   <span data-copy="prefab-binary-converter">Prefab Binary Converter</span>
-  <span data-copy="i-had-my-own-copies-of">I had my own copies of the game's legacy XML prefabs. When the game switched to a new engine, it started using a binary XML format.</span>
+  <span data-copy="i-had-my-own-copies-of">I had my own copies of the game's legacy XML [[prefab|prefabs]]. When the game switched to a new engine, it started using a [[binary|binary]] XML format.</span>
   <span data-copy="we">We</span>
   <span data-copy="people-in-the-modding-community">People in the modding community.</span>
   <span data-copy="spent-a-while-editing-the-new">spent a while editing the new prefab files in a hex editor and loading them into the game. Seeing how those edits changed the game gave me clues about what some of the key fields did and helped me reverse-engineer the format.</span>
@@ -67,8 +67,8 @@
   <span data-copy="the-second-challenge-was-recognizing-that">The second challenge was recognizing that the XML hierarchy was stored in</span>
   <span data-copy="breadth-first-search-visits-nodes-one">Breadth-first search visits nodes one level at a time, starting from the root in a tree.</span>
   <span data-copy="order-it-took-me-months-to">order. It took me months to figure out what that chunk of data represented.</span>
-  <span data-copy="binary-parser">Binary Parser:</span>
-  <span data-copy="xml-to-binary-converter">XML to Binary Converter:</span>
+  <span data-copy="binary-parser">[[binary|Binary]] Parser:</span>
+  <span data-copy="xml-to-binary-converter">XML to [[binary|Binary]] Converter:</span>
   <span data-copy="i-submitted-the-prefab-converter-to">I submitted the prefab converter to</span>
   <span data-copy="as">as</span>
   <span data-copy="pull-request-34">pull request #34</span>
@@ -76,7 +76,7 @@
   <span data-copy="unlock-mod-loader-details">Unlock Mod Loader Details</span>
   <span data-copy="mod-loader-details">Mod Loader details</span>
   <span data-copy="hlsl-analysis-and-assembly-injection">HLSL Analysis and Assembly Injection</span>
-  <span data-copy="i-analyzed-the-game-s-pixel">I analyzed the game's pixel shader structure and injected HLSL assembly into a shader variant to blend between two textures in-game.</span>
+  <span data-copy="i-analyzed-the-game-s-pixel">I analyzed the game's [[shader|pixel shader]] structure and injected HLSL assembly into a shader variant to blend between two textures in-game.</span>
   <span data-copy="code-logic">Code Logic:</span>
   <span data-copy="the-patch-uses">The patch uses</span>
   <span data-copy="a-general-purpose-directx-11-modding">A general-purpose DirectX 11 modding tool.</span>
@@ -126,4 +126,11 @@
   <span data-copy="portfolio-technical-artist-tools-pipeline">Portfolio | Technical Artist (Tools &amp; Pipeline)</span>
   <span data-copy="kitbash-ending">.</span>
   <span data-copy="cheat-engine-definition">A tool for inspecting and modifying the memory of a running program.</span>
+  <span data-copy="term-asset">A resource a game uses, such as a model, texture, sound, or animation.</span>
+  <span data-copy="term-binary">Data stored in bytes arranged according to a file format.</span>
+  <span data-copy="term-mesh">The geometry of a 3D model, made up of vertices, edges, and faces.</span>
+  <span data-copy="term-collider">A shape the game engine uses to detect collisions.</span>
+  <span data-copy="term-quaternion">A four-component mathematical representation of 3D rotations.</span>
+  <span data-copy="term-prefab">A reusable template for a game object or group of objects.</span>
+  <span data-copy="term-shader">A GPU program that computes the color or other output of a pixel.</span>
 </template>
