@@ -39,7 +39,7 @@
     status.textContent = 'Unlocking…';
     let reader;
     try {
-      const response = await fetch('assets/code/ModLoader.zip?v=42225f5de762');
+      const response = await fetch('assets/info.zip?v=42225f5de762');
       if (!response.ok || !window.zip) throw new Error('Archive or ZIP reader unavailable');
       reader = new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(await response.arrayBuffer())));
       const entries = await reader.getEntries();

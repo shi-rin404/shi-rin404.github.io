@@ -12,7 +12,7 @@
   <script src="js/imhex.js" defer></script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.7.54/dist/zip-full.min.js"></script>
-  <script defer src="js/mod-loader.js?v=a68a7774f073"></script>
+  <script defer src="js/mod-loader.js?v=b97e625218a8"></script>
 </head>
 <body>
   <section class="intro" aria-labelledby="about-heading">
@@ -49,7 +49,7 @@
           <details class="project-section">
             <summary><h3>Detailed</h3></summary>
             <h4>Mesh Importer/Exporter</h4>
-            <p>Other people had already reverse-engineered much of the game's mesh format. I worked on three pieces:</p>
+            <p>Other people had already reverse-engineered much of the game's mesh format. I reverse-engineered three parts of the format:</p>
             <ul>
               <li><strong>Bone-based collider cylinders.</strong> IDVMI-Tools generates custom colliders in the game's binary format on export. <a href="assets/screenshot/BoundaryInfo.png" target="_blank" rel="noopener">See Collider View</a> · <button type="button" class="source-trigger" data-code="collision-source" aria-haspopup="dialog" aria-label="View collider generation source code">Source Code</button></li>
               <li><strong>LOD data.</strong> I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</li>
