@@ -39,7 +39,7 @@
   <span data-copy="the-engine-uses-this-mask-to">The engine uses this mask to optimize which bones it processes. IDVMI-Tools builds the mask on export, so I can enable bones without copying the mask from an original mesh.</span>
   <span data-copy="the-biggest-challenge-for-me-was">The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes.</span>
   <span data-copy="animation-importer-exporter">Animation Importer/Exporter</span>
-  <span data-copy="i-decoded-the-animation-format-except">I decoded the animation format except for a suspected checksum field and the purpose of fields provisionally labeled position, rotation, and scale keys.</span>
+  <span data-copy="i-decoded-the-animation-format-except">I decoded most of the animation format, except for a suspected checksum field and the purpose of several fields provisionally labeled as position, rotation, and scale keys.</span>
   <span data-copy="each-packed-quaternion-is-a-little">Each packed [[quaternion|quaternion]] is a little-endian 32-bit word. From the most significant bits to the least significant:</span>
   <span data-copy="2-bits-for-the">2 bits for the</span>
   <span data-copy="selector">selector</span>
