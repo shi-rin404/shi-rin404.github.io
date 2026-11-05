@@ -1,0 +1,32 @@
+[ShaderRegexTransition]
+pre x50 = $transition_frame
+shader_model = ps_5_0
+temps = ini_param old_tex_info new_tex_info transition_activated old_tex_pixel old_tex_multiplier old_tex_affection new_tex_affection
+
+[ShaderRegexTransition.Pattern]
+(?<header>\h*sample_indexable\(texture2d\)\(float,float,float,float\)\s(?<dest>r\d+)\.(?<dest_swiz>\w+),\s(?<coord>v\d+\.\w+),\st0\.(?<t_swiz>\w+),\ss0\n)(?<content>[\s\S]*?)(?<return>ret)
+
+[ShaderRegexTransition.InsertDeclarations]
+dcl_resource_texture2d (float,float,float,float) t50
+dcl_resource_texture1d (float,float,float,float) t120
+
+[ShaderRegexTransition.Pattern.Replace]
+${header}
+
+resinfo_indexable(texture2d)(float,float,float,float) ${new_tex_info}.xy, l(0), t0.xyzw\n
+resinfo_indexable(texture2d)(float,float,float,float) ${old_tex_info}.xy, l(0), t50.xyzw\n
+eq ${transition_activated}.xy, ${old_tex_info}.xy, ${new_tex_info}.xy\n
+and ${transition_activated}.x, ${transition_activated}.x, ${transition_activated}.y\n
+if_nz ${transition_activated}.x\n
+	sample_indexable(texture2d)(float,float,float,float) ${old_tex_pixel}.xyzw, ${coord}, t50.xyzw, s0\n
+	ld_indexable(texture1d)(float,float,float,float) ${ini_param}.xyzw, l(50, 0), t120.xyzw\n
+	add ${old_tex_multiplier}.x, -${ini_param}.x, l(60.0)\n
+	mul ${old_tex_affection}.xyzw, ${old_tex_pixel}.xyzw, ${old_tex_multiplier}.xxxx\n
+	mul ${new_tex_affection}.xyzw, ${dest}.xyzw, ${ini_param}.x\n
+	add ${dest}.xyzw, ${new_tex_affection}.xyzw, ${old_tex_affection}.xyzw\n
+	mul ${dest}.xyzw, ${dest}.xyzw, l(0.016667, 0.016667, 0.016667, 0.016667)\n
+endif\n
+
+${content}
+${return}
+; 60 is the frame count. The transition will long 1 second

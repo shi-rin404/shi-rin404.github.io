@@ -9,10 +9,10 @@
   <script src="js/tabs.js" defer></script>
   <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
   <script src="js/terms.js?v=3d6c910d606c" defer></script>
-  <script src="js/imhex.js" defer></script>
+  <script src="js/imhex.js?v=584fca6fa14b" defer></script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.7.54/dist/zip-full.min.js"></script>
-  <script defer src="js/mod-loader.js?v=b97e625218a8"></script>
+  <script defer src="js/mod-loader.js?v=35d05936de51"></script>
 </head>
 <body>
   <section class="intro" aria-labelledby="about-heading">
@@ -34,13 +34,14 @@
   </div>
   <main class="workspace">
     <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
-      <details class="technical-project">
+      <details class="technical-project" open>
         <summary><h2>Blender Addon &amp; Asset Lookup &amp; Mod Loader</h2></summary>
         <div class="technical-project-content">
           <details class="project-section" open>
             <summary><h3>Summary</h3></summary>
             <p><strong>Blender Addon:</strong> Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
-              <strong>Mod Loader:</strong> Injects custom assets into the game.</p>
+              <strong>Mod Loader:</strong> Loads custom assets in-game and automates the asset-path change users previously made in Cheat Engine.</p>
+            <p><strong>Video Summary:</strong> Import game models into Blender for kitbashing, set up baked-lighting textures and material nodes, then export a model and load it in-game. Showcases animation importing and exporting.</p>
             <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
               <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
               <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
@@ -55,10 +56,10 @@
               <li><strong>LOD data.</strong> I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</li>
               <li><strong>Bone usage bitmask.</strong> The engine uses this mask to optimize which bones it processes. IDVMI-Tools builds the mask on export, so I can enable bones without copying the mask from an original mesh. <button type="button" class="source-trigger" data-code="bone-mask-source" aria-haspopup="dialog" aria-label="View bone usage bitmask source code">Source Code</button></li>
             </ul>
-            <p>The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores them in row-major order, while the AI-generated suggestions I tried assumed column-major order. I had to learn how the transforms work to get the matrix and axis conversions right. <button type="button" class="source-trigger" data-code="matrix-source" aria-haspopup="dialog" aria-label="View matrix conversion source code">Source Code</button></p>
+            <p>The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes. <button type="button" class="source-trigger" data-code="matrix-source" aria-haspopup="dialog" aria-label="View matrix conversion source code">Source Code</button></p>
 
             <h4>Animation Importer/Exporter</h4>
-            <p>I reverse-engineered about 95% of the animation format. <button type="button" class="source-trigger" data-code="animation-source" aria-haspopup="dialog" aria-label="View animation parser source code">Source Code</button></p>
+            <p>I decoded the animation format except for a suspected checksum field and the purpose of fields provisionally labeled position, rotation, and scale keys. <button type="button" class="source-trigger" data-code="animation-source" aria-haspopup="dialog" aria-label="View animation parser source code">Source Code</button></p>
             <p>Each packed quaternion is a little-endian 32-bit word. From the most significant bits to the least significant:</p>
             <ul>
               <li>2 bits for the <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="quaternion-selector-definition">selector</button><span class="term-definition" id="quaternion-selector-definition">An index from 0 to 3 that identifies the omitted component (X, Y, Z, or W). The decoder reconstructs it from the unit quaternion norm.</span></span></li>
@@ -73,6 +74,14 @@
             <p>Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</p>
             <p>I worked out the lookup logic and gave my pseudocode to AI to implement the <button type="button" class="source-trigger" data-code="thy-source" aria-haspopup="dialog" aria-label="View thy parser source code">THY parser</button> and <button type="button" class="source-trigger" data-code="lookup-source" aria-haspopup="dialog" aria-label="View asset lookup source code">Asset lookup</button> functions.</p>
 
+            <h4>Prefab Binary Converter</h4>
+            <p>I had my own copies of the game's legacy XML prefabs. When the game switched to a new engine, it started using a binary XML format.</p>
+            <p><span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-community-definition">We</button><span class="term-definition" id="prefab-community-definition">People in the modding community.</span></span> spent a while editing the new prefab files in a hex editor and loading them into the game. Seeing how those edits changed the game gave me clues about what some of the key fields did and helped me reverse-engineer the format.</p>
+            <p>The first challenge was recognizing LEB128. I hadn't encountered it before, and its variable-length encoding made it harder to tell where one value ended and the next began.</p>
+            <p>The second challenge was recognizing that the XML hierarchy was stored in <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-bfs-definition">BFS</button><span class="term-definition" id="prefab-bfs-definition">Breadth-first search visits nodes one level at a time, starting from the root in a tree.</span></span> order. It took me months to figure out what that chunk of data represented.</p>
+            <p><strong>Binary Parser:</strong> <button type="button" class="source-trigger" data-code="prefab-parser-source" aria-haspopup="dialog" aria-label="View binary prefab parser source code">Source Code</button></p>
+            <p><strong>XML to Binary Converter:</strong> <button type="button" class="source-trigger" data-code="prefab-writer-source" aria-haspopup="dialog" aria-label="View XML to binary converter source code">Source Code</button></p>
+
             <h4>Mod Loader</h4>
             <button type="button" class="source-trigger" id="unlock-mod-loader" aria-haspopup="dialog">Unlock Mod Loader Details</button>
             <iframe id="mod-loader-content" title="Mod Loader details" sandbox hidden></iframe>
@@ -82,9 +91,9 @@
       <details class="technical-project">
         <summary><h2>HLSL Analysis and Assembly Injection</h2></summary>
         <div class="technical-project-content">
-          <p>I analyzed the game's pixel shader structure and injected HLSL assembly into <strong>the majority of the game's pixel shaders</strong> without causing a crash.</p>
+          <p>I analyzed the game's pixel shader structure and injected HLSL assembly into a shader variant to blend between two textures in-game.</p>
           <p><strong>Code Logic:</strong> The patch uses <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="migoto-definition">3DMigoto</button><span class="term-definition" id="migoto-definition">A general-purpose DirectX 11 modding tool.</span></span> (<a href="https://github.com/bo3b/3Dmigoto">bo3b/3Dmigoto on GitHub</a>). It matches pixel shader assembly that samples from texture register <code>t0</code> and binds the previous texture to <code>t50</code>. When the textures have matching dimensions, a frame counter drives a 60-frame blend from the previous texture to the new one.</p>
-          <p><strong>Fun Fact:</strong> I wrote the assembly code without AI assistance. <a href="assets/screenshot/HLSL_Assembly.png" target="_blank" rel="noopener">Source Code</a></p>
+          <p><button type="button" class="source-trigger" data-code="texture-blending-source" aria-haspopup="dialog" aria-label="View texture blending INI source code">Source Code</button></p>
           <video controls playsinline preload="metadata" aria-label="HLSL assembly demonstration">
             <source src="assets/video/HLSL_Assembly.mp4" type="video/mp4">
             <a href="assets/video/HLSL_Assembly.mp4">Open the demonstration video</a>
@@ -544,5 +553,137 @@ CPDAnimation file @ 0x0;
       <button type="submit">Unlock</button>
     </form>
   </dialog>
+<template id="texture-blending-source" data-title="Texture blending INI">
+<pre class="imhex-viewer" tabindex="0" aria-label="INI source code"><code class="language-ini">[ShaderRegexTransition]
+pre x50 = $transition_frame
+shader_model = ps_5_0
+temps = ini_param old_tex_info new_tex_info transition_activated old_tex_pixel old_tex_multiplier old_tex_affection new_tex_affection
+
+[ShaderRegexTransition.Pattern]
+(?&lt;header&gt;\h*sample_indexable\(texture2d\)\(float,float,float,float\)\s(?&lt;dest&gt;r\d+)\.(?&lt;dest_swiz&gt;\w+),\s(?&lt;coord&gt;v\d+\.\w+),\st0\.(?&lt;t_swiz&gt;\w+),\ss0\n)(?&lt;content&gt;[\s\S]*?)(?&lt;return&gt;ret)
+
+[ShaderRegexTransition.InsertDeclarations]
+dcl_resource_texture2d (float,float,float,float) t50
+dcl_resource_texture1d (float,float,float,float) t120
+
+[ShaderRegexTransition.Pattern.Replace]
+${header}
+
+resinfo_indexable(texture2d)(float,float,float,float) ${new_tex_info}.xy, l(0), t0.xyzw\n
+resinfo_indexable(texture2d)(float,float,float,float) ${old_tex_info}.xy, l(0), t50.xyzw\n
+eq ${transition_activated}.xy, ${old_tex_info}.xy, ${new_tex_info}.xy\n
+and ${transition_activated}.x, ${transition_activated}.x, ${transition_activated}.y\n
+if_nz ${transition_activated}.x\n
+	sample_indexable(texture2d)(float,float,float,float) ${old_tex_pixel}.xyzw, ${coord}, t50.xyzw, s0\n
+	ld_indexable(texture1d)(float,float,float,float) ${ini_param}.xyzw, l(50, 0), t120.xyzw\n
+	add ${old_tex_multiplier}.x, -${ini_param}.x, l(60.0)\n
+	mul ${old_tex_affection}.xyzw, ${old_tex_pixel}.xyzw, ${old_tex_multiplier}.xxxx\n
+	mul ${new_tex_affection}.xyzw, ${dest}.xyzw, ${ini_param}.x\n
+	add ${dest}.xyzw, ${new_tex_affection}.xyzw, ${old_tex_affection}.xyzw\n
+	mul ${dest}.xyzw, ${dest}.xyzw, l(0.016667, 0.016667, 0.016667, 0.016667)\n
+endif\n
+
+${content}
+${return}
+; 60 is the frame count. The transition will long 1 second</code></pre>
+</template>
+<template id="prefab-parser-source" data-title="Binary Prefab Parser">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def parseCustomBinFormat(filepath:os.PathLike) -&gt; tuple:
+
+    with open(filepath, "rb") as f:
+
+        if not f.read(4) == b"\xC1\x59\x41\x0D":
+            raise ValueError("Invalid file format")
+
+        file_size = f.read(8) # uint64
+
+        element_def_amount = bh.readLEB128(f)
+
+        element_list = getParameters(element_def_amount, f)
+
+        attribute_def_amount = bh.readLEB128(f)
+        attribute_list = getParameters(attribute_def_amount, f)
+
+        attributes_offset = f.read(8) # uint64 | starts from 12th index (after header), so you can reach attributes if you go to 12 + {attributes_offset}th index.
+
+        tag_amount = bh.readLEB128(f)
+
+        element_tags = getElementTags(element_list, tag_amount, f)
+
+        attribute_map = getAttributes(tag_amount, attribute_list, f)
+
+    return element_tags, attribute_map</code></pre>
+</template>
+<template id="prefab-writer-source" data-title="XML to Binary Converter">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def xml_to_custom_bin(bfs_list:list) -&gt; bytearray:
+    output = bytearray()
+
+    output += b"\xC1\x59\x41\x0D"
+
+    output += bytearray(8)
+
+    element_definitions = sorted(chelper.deduplicate_definitions(bfs_list, _type='element'))
+
+    output += bh.writeLEB128(len(element_definitions))
+
+    output += b"".join(definition.encode("utf-8") + b"\x00" for definition in element_definitions)
+
+    attribute_definitions = sorted(chelper.deduplicate_definitions(bfs_list, _type='attribute'))
+
+    output += bh.writeLEB128(len(attribute_definitions))
+
+    output += b"".join(definition.encode("utf-8") + b"\x00" for definition in attribute_definitions)
+
+    attribute_offset_index = len(output)
+
+    output += bytearray(8)
+
+    output += bh.writeLEB128(len(bfs_list))
+
+    for element in bfs_list:
+        output += bh.writeLEB128(element_definitions.index(element[0]))
+        output += bh.writeLEB128(element[1])
+
+    output[attribute_offset_index:attribute_offset_index+8] = bh.writeuint64(len(output)-12)
+
+    for attribute_chunk in bfs_list:
+        output += bh.writeuint8(len(attribute_chunk[2]))
+        for attribute in sorted(attribute_chunk[2]):
+            output += bh.writeuint8(attribute_definitions.index(attribute))
+            attribute_data = attribute_chunk[2][attribute]
+            # Special-case: for tag "Object" and attribute "Id", encode as string
+            if attribute_chunk[0] == "Object" and attribute == "Id":
+                output += b"\x01" + attribute_data.encode("utf-8") + b"\x00"
+            elif attribute_data.replace("-", "", 1).isnumeric():
+                # Integer
+                if "-" in attribute_data or ("Shadow" in attribute and "Bias" in attribute):
+                    # Signed Integer
+                    output += b"\x05"
+                    output += bh.writeint32(int(attribute_data))
+                elif attribute == "Id":
+                    # Unsigned Integer64
+                    output += b"\x08"
+                    output += bh.writeuint64(int(attribute_data))
+                else:
+                    # Unsigned Integer32
+                    output += b"\x02"
+                    output += bh.writeuint32(int(attribute_data))
+            elif all(item.replace(".", "", 1).replace("-","", 1).isnumeric() for item in attribute_data.split(",")):
+                # Float Matrix
+                output += b"\x06"
+                float_matrix = attribute_data.split(",")
+                output += bh.writeuint32(len(float_matrix))
+                for float_data in float_matrix:
+                    output += bh.writefloat32(float(float_data))
+            # elif attribute_chunk[2][attribute].isalpha() or any(sign in attribute_chunk[2][attribute] for sign in "_ ()\\/"):
+            else:
+                # String
+                output += b"\x01" + attribute_data.encode("utf-8") + b"\x00"
+        output += b"\x01\x00" # End Flag
+
+    output = output[:4] + bh.writeuint64(len(output)) + output[12:]
+
+    return output</code></pre>
+</template>
 </body>
 </html>

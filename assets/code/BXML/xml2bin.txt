@@ -1,0 +1,69 @@
+def xml_to_custom_bin(bfs_list:list) -> bytearray:
+    output = bytearray()
+
+    output += b"\xC1\x59\x41\x0D"
+
+    output += bytearray(8)
+
+    element_definitions = sorted(chelper.deduplicate_definitions(bfs_list, _type='element'))
+
+    output += bh.writeLEB128(len(element_definitions))
+
+    output += b"".join(definition.encode("utf-8") + b"\x00" for definition in element_definitions)    
+
+    attribute_definitions = sorted(chelper.deduplicate_definitions(bfs_list, _type='attribute'))
+
+    output += bh.writeLEB128(len(attribute_definitions))
+
+    output += b"".join(definition.encode("utf-8") + b"\x00" for definition in attribute_definitions)
+
+    attribute_offset_index = len(output)
+
+    output += bytearray(8)
+
+    output += bh.writeLEB128(len(bfs_list))
+
+    for element in bfs_list:
+        output += bh.writeLEB128(element_definitions.index(element[0]))
+        output += bh.writeLEB128(element[1])
+
+    output[attribute_offset_index:attribute_offset_index+8] = bh.writeuint64(len(output)-12)
+
+    for attribute_chunk in bfs_list:
+        output += bh.writeuint8(len(attribute_chunk[2]))
+        for attribute in sorted(attribute_chunk[2]):
+            output += bh.writeuint8(attribute_definitions.index(attribute))
+            attribute_data = attribute_chunk[2][attribute]
+            # Special-case: for tag "Object" and attribute "Id", encode as string
+            if attribute_chunk[0] == "Object" and attribute == "Id":
+                output += b"\x01" + attribute_data.encode("utf-8") + b"\x00"
+            elif attribute_data.replace("-", "", 1).isnumeric():
+                # Integer
+                if "-" in attribute_data or ("Shadow" in attribute and "Bias" in attribute):
+                    # Signed Integer
+                    output += b"\x05"
+                    output += bh.writeint32(int(attribute_data))
+                elif attribute == "Id":
+                    # Unsigned Integer64
+                    output += b"\x08"
+                    output += bh.writeuint64(int(attribute_data))
+                else:
+                    # Unsigned Integer32
+                    output += b"\x02"
+                    output += bh.writeuint32(int(attribute_data))
+            elif all(item.replace(".", "", 1).replace("-","", 1).isnumeric() for item in attribute_data.split(",")):
+                # Float Matrix
+                output += b"\x06"
+                float_matrix = attribute_data.split(",")
+                output += bh.writeuint32(len(float_matrix))
+                for float_data in float_matrix:
+                    output += bh.writefloat32(float(float_data))
+            # elif attribute_chunk[2][attribute].isalpha() or any(sign in attribute_chunk[2][attribute] for sign in "_ ()\\/"):
+            else:
+                # String
+                output += b"\x01" + attribute_data.encode("utf-8") + b"\x00"
+        output += b"\x01\x00" # End Flag
+
+    output = output[:4] + bh.writeuint64(len(output)) + output[12:]
+
+    return output

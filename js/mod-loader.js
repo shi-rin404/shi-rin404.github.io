@@ -71,9 +71,6 @@
       identityPrompt.hidden = true;
       trigger.hidden = true;
       if (fromLink) {
-        for (let section = frame.closest('details'); section; section = section.parentElement.closest('details')) {
-          section.open = false;
-        }
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       } else if (frame.getClientRects().length) {
         frame.focus({ preventScroll: true });

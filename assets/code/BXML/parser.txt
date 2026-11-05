@@ -1,0 +1,25 @@
+def parseCustomBinFormat(filepath:os.PathLike) -> tuple:
+    
+    with open(filepath, "rb") as f:
+   
+        if not f.read(4) == b"\xC1\x59\x41\x0D":
+            raise ValueError("Invalid file format")
+        
+        file_size = f.read(8) # uint64
+        
+        element_def_amount = bh.readLEB128(f)
+
+        element_list = getParameters(element_def_amount, f)
+
+        attribute_def_amount = bh.readLEB128(f)
+        attribute_list = getParameters(attribute_def_amount, f)
+                
+        attributes_offset = f.read(8) # uint64 | starts from 12th index (after header), so you can reach attributes if you go to 12 + {attributes_offset}th index.
+        
+        tag_amount = bh.readLEB128(f)
+
+        element_tags = getElementTags(element_list, tag_amount, f)
+
+        attribute_map = getAttributes(tag_amount, attribute_list, f)
+
+    return element_tags, attribute_map

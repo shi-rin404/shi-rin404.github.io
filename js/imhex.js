@@ -4,9 +4,12 @@
   const imhex = new RegExp(tokens.source + '|' + words.source, 'gi');
   const python = /(?<comment>#[^\n]*)|(?<string>(?:"""[\s\S]*?"""|\x27\x27\x27[\s\S]*?\x27\x27\x27|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'))|(?<keyword>\b(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\b)|(?<type>\b(?:bool|bytes|dict|float|int|list|object|set|str|tuple)\b)|(?<number>\b(?:0[xX][\da-fA-F_]+|0[bB][01_]+|0[oO][0-7_]+|\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?[\d_]+)?)\b)|\b[a-zA-Z_]\w*\b/g;
 
+  const ini = /(?<directive>^[\t ]*\[[^\]\r\n]+\])|(?<comment>^[\t ]*[;#][^\r\n]*)|(?<keyword>^[\t ]*[\w ]+(?=[\t ]*=))|(?<operator>\$\{[^}\r\n]+\}|\$[a-z_]\w*)|(?<number>\b\d+(?:\.\d+)?\b)/gim;
+
   function highlightCode(container) {
-    for (const code of container.querySelectorAll('code.language-imhex, code.language-python')) {
-      const pattern = code.classList.contains('language-python') ? python : imhex;
+    for (const code of container.querySelectorAll('code.language-imhex, code.language-python, code.language-ini')) {
+      const pattern = code.classList.contains('language-ini') ? ini :
+        code.classList.contains('language-python') ? python : imhex;
       const source = code.textContent;
       const highlighted = document.createDocumentFragment();
       let end = 0;
