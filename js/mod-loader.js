@@ -11,13 +11,24 @@
   const submit = form.querySelector('[type="submit"]');
 
   let unlockedName;
+  let unlockedDetails;
+
+  function renderDetails() {
+    if (!unlockedDetails) return;
+    frame.srcdoc = unlockedDetails[document.documentElement.lang] ?? unlockedDetails.en;
+    frame.hidden = false;
+  }
+
   function renderIdentity() {
     if (!unlockedName) return;
     identity.textContent = document.documentElement.lang === 'tr'
       ? 'Ben ' + unlockedName + '. ' : "I'm " + unlockedName + ". ";
   }
 
-  document.addEventListener('portfolio-language-change', renderIdentity);
+  document.addEventListener('portfolio-language-change', () => {
+    renderIdentity();
+    renderDetails();
+  });
 
   function openPasswordDialog() {
     form.reset();
@@ -48,15 +59,17 @@
     status.textContent = window.portfolioText('unlocking', 'Unlocking…');
     let reader;
     try {
-      const response = await fetch('assets/info.zip?v=42225f5de762');
+      const response = await fetch('assets/info.zip?v=921d80510559');
       if (!response.ok || !window.zip) throw new Error('Archive or ZIP reader unavailable');
       reader = new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(await response.arrayBuffer())));
       const entries = await reader.getEntries();
-      const entry = entries.find(item => item.filename === 'mod-loader.html' && item.encrypted);
+      const englishEntry = entries.find(item => item.filename === 'mod-loader.en.html' && item.encrypted);
+      const turkishEntry = entries.find(item => item.filename === 'mod-loader.tr.html' && item.encrypted);
       const nameEntry = entries.find(item => item.filename === 'identity.txt' && item.encrypted);
-      if (!entry || !nameEntry) throw new Error('Missing encrypted archive entry');
+      if (!englishEntry || !turkishEntry || !nameEntry) throw new Error('Missing encrypted archive entry');
 
-      let html;
+      let english;
+      let turkish;
       let name;
       try {
         const options = {
@@ -64,7 +77,8 @@
           checkSignature: true,
           useWebWorkers: false,
         };
-        html = await entry.getData(new zip.TextWriter(), options);
+        english = await englishEntry.getData(new zip.TextWriter(), options);
+        turkish = await turkishEntry.getData(new zip.TextWriter(), options);
         name = await nameEntry.getData(new zip.TextWriter(), options);
       } catch {
         status.textContent = window.portfolioText('could-not-decrypt-the-file-check', 'Could not decrypt the file. Check the password and try again.');
@@ -73,8 +87,8 @@
         return;
       }
 
-      frame.srcdoc = html;
-      frame.hidden = false;
+      unlockedDetails = { en: english, tr: turkish };
+      renderDetails();
       unlockedName = name.trim();
       renderIdentity();
       if (dialog.open) dialog.close();
