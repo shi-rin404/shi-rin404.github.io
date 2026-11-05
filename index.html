@@ -73,6 +73,7 @@
             <p>I disassembled the game's engine DLL using Cheat Engine and IDA, picked a virtual asset path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</p>
             <p>Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</p>
             <p>I worked out the lookup logic and gave my pseudocode to AI to implement the <button type="button" class="source-trigger" data-code="thy-source" aria-haspopup="dialog" aria-label="View thy parser source code">THY parser</button> and <button type="button" class="source-trigger" data-code="lookup-source" aria-haspopup="dialog" aria-label="View asset lookup source code">Asset lookup</button> functions.</p>
+            <p>I integrated my asset lookup implementation with the asset extraction code from <a href="https://github.com/NeoXtractor/NeoXtractor">NeoXtractor</a>.</p>
 
             <h4>Prefab Binary Converter</h4>
             <p>I had my own copies of the game's legacy XML prefabs. When the game switched to a new engine, it started using a binary XML format.</p>
@@ -81,6 +82,7 @@
             <p>The second challenge was recognizing that the XML hierarchy was stored in <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-bfs-definition">BFS</button><span class="term-definition" id="prefab-bfs-definition">Breadth-first search visits nodes one level at a time, starting from the root in a tree.</span></span> order. It took me months to figure out what that chunk of data represented.</p>
             <p><strong>Binary Parser:</strong> <button type="button" class="source-trigger" data-code="prefab-parser-source" aria-haspopup="dialog" aria-label="View binary prefab parser source code">Source Code</button></p>
             <p><strong>XML to Binary Converter:</strong> <button type="button" class="source-trigger" data-code="prefab-writer-source" aria-haspopup="dialog" aria-label="View XML to binary converter source code">Source Code</button></p>
+            <p>I submitted the prefab converter to <a href="https://github.com/NeoXtractor/NeoXtractor">NeoXtractor</a> as <a href="https://github.com/NeoXtractor/NeoXtractor/pull/34">pull request #34</a>.</p>
 
             <h4>Mod Loader</h4>
             <button type="button" class="source-trigger" id="unlock-mod-loader" aria-haspopup="dialog">Unlock Mod Loader Details</button>
