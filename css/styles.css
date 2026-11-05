@@ -535,3 +535,7 @@ body {
   color: var(--text);
   font: inherit;
 }
+
+#identity-prompt[hidden] {
+  display: none;
+}

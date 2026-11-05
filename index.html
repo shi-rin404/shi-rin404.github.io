@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#252e38">
   <title>Portfolio | Technical Artist (Tools & Pipeline)</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=23eb3c6a9fd9">
   <script src="js/tabs.js" defer></script>
   <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
-  <script src="js/terms.js" defer></script>
+  <script src="js/terms.js?v=3d6c910d606c" defer></script>
   <script src="js/imhex.js" defer></script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.7.54/dist/zip-full.min.js"></script>
-  <script defer src="js/mod-loader.js?v=d8fd51143f3b"></script>
+  <script defer src="js/mod-loader.js?v=5d648a63af99"></script>
 </head>
 <body>
   <section class="intro" aria-labelledby="about-heading">
     <div>
       <h1 id="about-heading">About Me</h1>
       <ul>
-		<li>I known as <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="nickname-definition">shirin404</button><span class="term-definition" id="nickname-definition">Also known as Cookie in IDV Modding Community</span></span> in internet. <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="irl-name-definition">Real name can be found in my CV.</button><span class="term-definition" id="irl-name-definition">I can't put my real name GitHub for security purposes</span></span></li>
+		<li><span id="protected-identity"></span>I'm known as <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="nickname-definition">shirin404</button><span class="term-definition" id="nickname-definition">Also known as Cookie in IDV Modding Community</span></span> online. <span class="technical-term" id="identity-prompt"><button type="button" id="unlock-identity" aria-haspopup="dialog" aria-describedby="irl-name-definition">Use access key to see my real name.</button><span class="term-definition" id="irl-name-definition">Use the link in my CV file or click this text to enter the password.</span></span></li>
         <li>4th-year Information Technologies student aiming to become a Technical Artist</li>
         <li>Developing game development and modding tools</li>
         <li>Founded a game modding community</li>
@@ -534,7 +534,8 @@ CPDAnimation file @ 0x0;
         )</code></pre>
 </template>
   <dialog class="term-dialog" id="mod-loader-dialog" aria-labelledby="mod-loader-dialog-title">
-    <h2 id="mod-loader-dialog-title">Unlock Mod Loader Details</h2>
+    <h2 id="mod-loader-dialog-title">Unlock Protected Information</h2>
+    <p class="gallery-note">Use the access link in my CV to unlock this content automatically.</p>
     <form id="mod-loader-password-form">
       <label for="mod-loader-password">Password</label>
       <input id="mod-loader-password" type="password" required autofocus>

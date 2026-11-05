@@ -1,5 +1,8 @@
 (() => {
   const trigger = document.querySelector('#unlock-mod-loader');
+  const identityTrigger = document.querySelector('#unlock-identity');
+  const identityPrompt = document.querySelector('#identity-prompt');
+  const identity = document.querySelector('#protected-identity');
   const dialog = document.querySelector('#mod-loader-dialog');
   const form = document.querySelector('#mod-loader-password-form');
   const password = document.querySelector('#mod-loader-password');
@@ -7,11 +10,14 @@
   const frame = document.querySelector('#mod-loader-content');
   const submit = form.querySelector('[type="submit"]');
 
-  trigger.addEventListener('click', () => {
+  function openPasswordDialog() {
     form.reset();
     status.textContent = '';
     dialog.showModal();
-  });
+  }
+
+  trigger.addEventListener('click', openPasswordDialog);
+  identityTrigger.addEventListener('click', openPasswordDialog);
 
   document.querySelector('#cancel-mod-loader').addEventListener('click', () => dialog.close());
   dialog.addEventListener('cancel', event => {
@@ -29,23 +35,28 @@
     if (submit.disabled) return;
     submit.disabled = true;
     trigger.disabled = true;
+    identityTrigger.disabled = true;
     status.textContent = 'Unlocking…';
     let reader;
     try {
-      const response = await fetch('assets/code/ModLoader.zip');
+      const response = await fetch('assets/code/ModLoader.zip?v=3f86f2300cf2');
       if (!response.ok || !window.zip) throw new Error('Archive or ZIP reader unavailable');
       reader = new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(await response.arrayBuffer())));
       const entries = await reader.getEntries();
       const entry = entries.find(item => item.filename === 'mod-loader.html' && item.encrypted);
-      if (!entry) throw new Error('Missing encrypted HTML entry');
+      const nameEntry = entries.find(item => item.filename === 'identity.txt' && item.encrypted);
+      if (!entry || !nameEntry) throw new Error('Missing encrypted archive entry');
 
       let html;
+      let name;
       try {
-        html = await entry.getData(new zip.TextWriter(), {
+        const options = {
           password: enteredPassword,
           checkSignature: true,
           useWebWorkers: false,
-        });
+        };
+        html = await entry.getData(new zip.TextWriter(), options);
+        name = await nameEntry.getData(new zip.TextWriter(), options);
       } catch {
         status.textContent = 'Could not decrypt the file. Check the password and try again.';
         if (!dialog.open) dialog.showModal();
@@ -55,15 +66,19 @@
 
       frame.srcdoc = html;
       frame.hidden = false;
+      identity.textContent = "I'm " + name.trim() + ". ";
       if (dialog.open) dialog.close();
+      identityPrompt.hidden = true;
       trigger.hidden = true;
       if (fromLink) {
         for (let section = frame.closest('details'); section; section = section.parentElement.closest('details')) {
           section.open = false;
         }
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } else if (frame.getClientRects().length) {
+        frame.focus({ preventScroll: true });
       } else {
-        frame.focus();
+        document.querySelector('[aria-describedby=nickname-definition]').focus({ preventScroll: true });
       }
     } catch {
       if (!dialog.open) dialog.showModal();
@@ -71,6 +86,7 @@
     } finally {
       submit.disabled = false;
       trigger.disabled = false;
+      identityTrigger.disabled = false;
       form.querySelector('#cancel-mod-loader').disabled = false;
       if (reader) await reader.close();
     }
