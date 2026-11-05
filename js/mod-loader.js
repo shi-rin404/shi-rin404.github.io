@@ -20,13 +20,23 @@
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (submit.disabled) return;
-    submit.disabled = true;
-    form.querySelector('#cancel-mod-loader').disabled = true;
-    status.textContent = 'Unlocking…';
     const enteredPassword = password.value;
     password.value = '';
+    await unlock(enteredPassword);
+  });
 
+  async function unlock(enteredPassword, fromLink = false) {
+    if (submit.disabled) return;
+    submit.disabled = true;
+    trigger.disabled = true;
+    if (fromLink) {
+      document.querySelector('#technical-tab').click();
+      for (let section = trigger.closest('details'); section; section = section.parentElement.closest('details')) {
+        section.open = true;
+      }
+    }
+    form.querySelector('#cancel-mod-loader').disabled = true;
+    status.textContent = 'Unlocking…';
     let reader;
     try {
       const response = await fetch('assets/code/ModLoader.zip');
@@ -45,21 +55,35 @@
         });
       } catch {
         status.textContent = 'Could not decrypt the file. Check the password and try again.';
+        if (!dialog.open) dialog.showModal();
         password.focus();
         return;
       }
 
       frame.srcdoc = html;
       frame.hidden = false;
-      dialog.close();
-      frame.focus();
+      if (dialog.open) dialog.close();
       trigger.hidden = true;
+      if (fromLink) frame.scrollIntoView({ block: 'nearest' });
+      frame.focus();
     } catch {
+      if (!dialog.open) dialog.showModal();
       status.textContent = 'Could not load the protected details. Open the site over HTTP or HTTPS and try again.';
     } finally {
-      if (reader) await reader.close();
       submit.disabled = false;
+      trigger.disabled = false;
       form.querySelector('#cancel-mod-loader').disabled = false;
+      if (reader) await reader.close();
     }
-  });
+  }
+
+  const fragment = new URLSearchParams(window.location.hash.slice(1));
+  if (fragment.has('key')) {
+    const key = fragment.get('key');
+    fragment.delete('key');
+    const url = new URL(window.location.href);
+    url.hash = fragment.toString();
+    window.history.replaceState(window.history.state, '', url);
+    if (key) unlock(key, true);
+  }
 })();
