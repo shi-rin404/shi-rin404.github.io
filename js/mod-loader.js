@@ -10,6 +10,15 @@
   const frame = document.querySelector('#mod-loader-content');
   const submit = form.querySelector('[type="submit"]');
 
+  let unlockedName;
+  function renderIdentity() {
+    if (!unlockedName) return;
+    identity.textContent = document.documentElement.lang === 'tr'
+      ? 'Ben ' + unlockedName + '. ' : "I'm " + unlockedName + ". ";
+  }
+
+  document.addEventListener('portfolio-language-change', renderIdentity);
+
   function openPasswordDialog() {
     form.reset();
     status.textContent = '';
@@ -36,7 +45,7 @@
     submit.disabled = true;
     trigger.disabled = true;
     identityTrigger.disabled = true;
-    status.textContent = 'Unlocking…';
+    status.textContent = window.portfolioText('unlocking', 'Unlocking…');
     let reader;
     try {
       const response = await fetch('assets/info.zip?v=42225f5de762');
@@ -58,7 +67,7 @@
         html = await entry.getData(new zip.TextWriter(), options);
         name = await nameEntry.getData(new zip.TextWriter(), options);
       } catch {
-        status.textContent = 'Could not decrypt the file. Check the password and try again.';
+        status.textContent = window.portfolioText('could-not-decrypt-the-file-check', 'Could not decrypt the file. Check the password and try again.');
         if (!dialog.open) dialog.showModal();
         password.focus();
         return;
@@ -66,7 +75,8 @@
 
       frame.srcdoc = html;
       frame.hidden = false;
-      identity.textContent = "I'm " + name.trim() + ". ";
+      unlockedName = name.trim();
+      renderIdentity();
       if (dialog.open) dialog.close();
       identityPrompt.hidden = true;
       trigger.hidden = true;
@@ -79,7 +89,7 @@
       }
     } catch {
       if (!dialog.open) dialog.showModal();
-      status.textContent = 'Could not load the protected details. Open the site over HTTP or HTTPS and try again.';
+      status.textContent = window.portfolioText('could-not-load-the-protected-details', 'Could not load the protected details. Open the site over HTTP or HTTPS and try again.');
     } finally {
       submit.disabled = false;
       trigger.disabled = false;

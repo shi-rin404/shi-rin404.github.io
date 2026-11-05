@@ -4,111 +4,118 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#252e38">
-  <title>Portfolio | Technical Artist (Tools & Pipeline)</title>
-  <link rel="stylesheet" href="css/styles.css?v=23eb3c6a9fd9">
+  <title data-copy="portfolio-technical-artist-tools-pipeline">Portfolio | Technical Artist (Tools & Pipeline)</title>
+  <link rel="stylesheet" href="css/styles.css?v=a0490bba78ad">
+  <script src="js/language.js?v=80605d639b23" defer></script>
   <script src="js/tabs.js" defer></script>
-  <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
+  <script src="js/carousel.js?v=2f0d325c57e1" defer></script>
   <script src="js/terms.js?v=3d6c910d606c" defer></script>
-  <script src="js/imhex.js?v=584fca6fa14b" defer></script>
+  <script src="js/imhex.js?v=957f65ec33c7" defer></script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.7.54/dist/zip-full.min.js"></script>
-  <script defer src="js/mod-loader.js?v=35d05936de51"></script>
+  <script defer src="js/mod-loader.js?v=8e070c039ce4"></script>
 </head>
 <body>
   <section class="intro" aria-labelledby="about-heading">
     <div>
-      <h1 id="about-heading">About Me</h1>
+      <h1 id="about-heading"><span data-copy="about-me">About Me</span></h1>
       <ul>
-		<li><span id="protected-identity"></span>I'm known as <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="nickname-definition">shirin404</button><span class="term-definition" id="nickname-definition">Also known as Cookie in IDV Modding Community</span></span> online. <span class="technical-term" id="identity-prompt"><button type="button" id="unlock-identity" aria-haspopup="dialog" aria-describedby="irl-name-definition">Use access key to see my real name.</button><span class="term-definition" id="irl-name-definition">Use the link in my CV file or click this text to enter the password.</span></span></li>
-        <li>4th-year Information Technologies student aiming to become a Technical Artist</li>
-        <li>Developing game development and modding tools</li>
-        <li>Founded a game modding community</li>
-        <li>Analyzing a custom mobile game engine and reverse-engineering custom binary formats</li>
-        <li>Available for a long-term internship starting in July 2027</li>
+		<li><span id="protected-identity"></span><span data-copy="i-m-known-as">I'm known as</span> <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="nickname-definition">shirin404</button><span class="term-definition" id="nickname-definition"><span data-copy="also-known-as-cookie-in-idv">Also known as Cookie in IDV Modding Community</span></span></span> <span data-copy="online">online.</span> <span class="technical-term" id="identity-prompt"><button type="button" id="unlock-identity" aria-haspopup="dialog" aria-describedby="irl-name-definition"><span data-copy="use-access-key-to-see-my">Use access key to see my real name.</span></button><span class="term-definition" id="irl-name-definition"><span data-copy="use-the-link-in-my-cv">Use the link in my CV file or click this text to enter the password.</span></span></span></li>
+        <li><span data-copy="4th-year-information-technologies-student-aiming">4th-year Information Technologies student aiming to become a Technical Artist</span></li>
+        <li><span data-copy="developing-game-development-and-modding-tools">Developing game development and modding tools</span></li>
+        <li><span data-copy="founded-a-game-modding-community">Founded a game modding community</span></li>
+        <li><span data-copy="analyzing-a-custom-mobile-game-engine">Analyzing a custom mobile game engine and reverse-engineering custom binary formats</span></li>
+        <li><span data-copy="available-for-a-long-term-internship">Available for a long-term internship starting in July 2027</span></li>
       </ul>
     </div>
+    <div class="language-switch" role="group" aria-label="Language / Dil">
+      <button type="button" data-language="en" lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-language="tr" lang="tr" aria-pressed="false">TR</button>
+      <span id="language-status" role="status"></span>
+    </div>
   </section>
-  <div class="tab-bar" role="tablist" aria-label="Portfolio">
-    <button type="button" id="technical-tab" role="tab" aria-selected="true" aria-controls="technical">Technical</button>
-    <button type="button" id="artist-tab" role="tab" aria-selected="false" aria-controls="artist" tabindex="-1">Artist</button>
+  <div class="tab-bar" role="tablist" aria-label="Portfolio" data-copy-aria-label="portfolio">
+    <button type="button" id="technical-tab" role="tab" aria-selected="true" aria-controls="technical"><span data-copy="technical">Technical</span></button>
+    <button type="button" id="artist-tab" role="tab" aria-selected="false" aria-controls="artist" tabindex="-1"><span data-copy="artist">Artist</span></button>
   </div>
   <main class="workspace">
     <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
       <details class="technical-project" open>
-        <summary><h2>Blender Addon &amp; Asset Lookup &amp; Mod Loader</h2></summary>
+        <summary><h2><span data-copy="blender-addon-asset-lookup-mod-loader">Blender Addon &amp; Asset Lookup &amp; Mod Loader</span></h2></summary>
         <div class="technical-project-content">
           <details class="project-section" open>
-            <summary><h3>Summary</h3></summary>
-            <p><strong>Blender Addon:</strong> Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
-              <strong>Mod Loader:</strong> Loads custom assets in-game and automates the asset-path change users previously made in Cheat Engine.</p>
-            <p><strong>Video Summary:</strong> Import game models into Blender for kitbashing, set up baked-lighting textures and material nodes, then export a model and load it in-game. Showcases animation importing and exporting.</p>
+            <summary><h3><span data-copy="summary">Summary</span></h3></summary>
+            <p><strong><span data-copy="blender-addon">Blender Addon:</span></strong> <span data-copy="retrieves-assets-via-lookup-imports-exports">Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.</span><br>
+              <strong><span data-copy="mod-loader">Mod Loader:</span></strong> <span data-copy="loads-custom-assets-in-game-and">Loads custom assets in-game and automates the asset-path change users previously made in Cheat Engine.</span></p>
+            <p><strong><span data-copy="video-summary">Video Summary:</span></strong> <span data-copy="import-game-models-into-blender-for">Import game models into Blender for kitbashing, set up</span> <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="baked-lighting-definition">baked lighting</button><span class="term-definition" id="baked-lighting-definition"><span data-copy="lighting-information-precomputed-and-stored-in">Lighting information precomputed and stored in a texture.</span></span></span> <span data-copy="textures-and-material-nodes-then-export">textures and material nodes, then export a model and load it in-game. Showcases animation importing and exporting.</span></p>
             <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
               <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
-              <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
+              <a href="assets/video/ModdingPortfolio.mp4"><span data-copy="open-the-demonstration-video">Open the demonstration video</span></a>
             </video>
           </details>
           <details class="project-section">
-            <summary><h3>Detailed</h3></summary>
-            <h4>Mesh Importer/Exporter</h4>
-            <p>Other people had already reverse-engineered much of the game's mesh format. I reverse-engineered three parts of the format:</p>
+            <summary><h3><span data-copy="detailed">Detailed</span></h3></summary>
+            <p class="translation-glossary" lang="tr">Terimler · <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="glossary-mesh">mesh</button><span class="term-definition" id="glossary-mesh">Bir 3B modelin köşe, kenar ve yüzlerden oluşan geometrisi.</span></span> · <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="glossary-collider">collider</button><span class="term-definition" id="glossary-collider">Oyun motorunun çarpışma hesabında kullandığı görünmez şekil.</span></span> · <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="glossary-quaternion">quaternion</button><span class="term-definition" id="glossary-quaternion">Üç boyutlu dönüşleri dört bileşenle temsil eden matematiksel yapı.</span></span> · <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="glossary-prefab">prefab</button><span class="term-definition" id="glossary-prefab">Oyunda tekrar kullanılabilen nesne veya nesne grubu şablonu.</span></span> · <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="glossary-shader">pixel shader</button><span class="term-definition" id="glossary-shader">Ekrana çizilen bir pikselin rengini hesaplayan GPU programı.</span></span></p>
+            <h4><span data-copy="mesh-importer-exporter">Mesh Importer/Exporter</span></h4>
+            <p><span data-copy="other-people-had-already-reverse-engineered">Other people had already reverse-engineered much of the game's mesh format. I reverse-engineered three parts of the format:</span></p>
             <ul>
-              <li><strong>Bone-based collider cylinders.</strong> IDVMI-Tools generates custom colliders in the game's binary format on export. <a href="assets/screenshot/BoundaryInfo.png" target="_blank" rel="noopener">See Collider View</a> · <button type="button" class="source-trigger" data-code="collision-source" aria-haspopup="dialog" aria-label="View collider generation source code">Source Code</button></li>
-              <li><strong>LOD data.</strong> I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</li>
-              <li><strong>Bone usage bitmask.</strong> The engine uses this mask to optimize which bones it processes. IDVMI-Tools builds the mask on export, so I can enable bones without copying the mask from an original mesh. <button type="button" class="source-trigger" data-code="bone-mask-source" aria-haspopup="dialog" aria-label="View bone usage bitmask source code">Source Code</button></li>
+              <li><strong><span data-copy="bone-based-collider-cylinders">Bone-based collider cylinders.</span></strong> <span data-copy="idvmi-tools-generates-custom-colliders-in">IDVMI-Tools generates custom colliders in the game's binary format on export.</span> <a href="assets/screenshot/BoundaryInfo.png" target="_blank" rel="noopener"><span data-copy="see-collider-view">See Collider View</span></a> · <button type="button" class="source-trigger" data-code="collision-source" aria-haspopup="dialog" aria-label="View collider generation source code"><span data-copy="source-code">Source Code</span></button></li>
+              <li><strong><span data-copy="lod-data">LOD data.</span></strong> <span data-copy="i-identified-the-table-s-position">I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</span></li>
+              <li><strong><span data-copy="bone-usage-bitmask">Bone usage bitmask.</span></strong> <span data-copy="the-engine-uses-this-mask-to">The engine uses this mask to optimize which bones it processes. IDVMI-Tools builds the mask on export, so I can enable bones without copying the mask from an original mesh.</span> <button type="button" class="source-trigger" data-code="bone-mask-source" aria-haspopup="dialog" aria-label="View bone usage bitmask source code"><span data-copy="source-code">Source Code</span></button></li>
             </ul>
-            <p>The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes. <button type="button" class="source-trigger" data-code="matrix-source" aria-haspopup="dialog" aria-label="View matrix conversion source code">Source Code</button></p>
+            <p><span data-copy="the-biggest-challenge-for-me-was">The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes.</span> <button type="button" class="source-trigger" data-code="matrix-source" aria-haspopup="dialog" aria-label="View matrix conversion source code"><span data-copy="source-code">Source Code</span></button></p>
 
-            <h4>Animation Importer/Exporter</h4>
-            <p>I decoded the animation format except for a suspected checksum field and the purpose of fields provisionally labeled position, rotation, and scale keys. <button type="button" class="source-trigger" data-code="animation-source" aria-haspopup="dialog" aria-label="View animation parser source code">Source Code</button></p>
-            <p>Each packed quaternion is a little-endian 32-bit word. From the most significant bits to the least significant:</p>
+            <h4><span data-copy="animation-importer-exporter">Animation Importer/Exporter</span></h4>
+            <p><span data-copy="i-decoded-the-animation-format-except">I decoded the animation format except for a suspected checksum field and the purpose of fields provisionally labeled position, rotation, and scale keys.</span> <button type="button" class="source-trigger" data-code="animation-source" aria-haspopup="dialog" aria-label="View animation parser source code"><span data-copy="source-code">Source Code</span></button></p>
+            <p><span data-copy="each-packed-quaternion-is-a-little">Each packed quaternion is a little-endian 32-bit word. From the most significant bits to the least significant:</span></p>
             <ul>
-              <li>2 bits for the <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="quaternion-selector-definition">selector</button><span class="term-definition" id="quaternion-selector-definition">An index from 0 to 3 that identifies the omitted component (X, Y, Z, or W). The decoder reconstructs it from the unit quaternion norm.</span></span></li>
-              <li>10 bits each for components C, B, and A, in that order</li>
+              <li><span data-copy="2-bits-for-the">2 bits for the</span> <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="quaternion-selector-definition"><span data-copy="selector">selector</span></button><span class="term-definition" id="quaternion-selector-definition"><span data-copy="an-index-from-0-to-3">An index from 0 to 3 that identifies the omitted component (X, Y, Z, or W). The decoder reconstructs it from the unit quaternion norm.</span></span></span></li>
+              <li><span data-copy="10-bits-each-for-components-c">10 bits each for components C, B, and A, in that order</span></li>
             </ul>
-            <p>I decode each stored component from its 10-bit integer value <em>c</em> using:</p>
+            <p><span data-copy="i-decode-each-stored-component-from">I decode each stored component from its 10-bit integer value</span> <em>c</em> <span data-copy="using">using:</span></p>
             <div class="math-display">\[v = \frac{2(c/1023)-1}{\sqrt{2}}\]</div>
-            <p>The decoder reconstructs the omitted component using the unit quaternion norm. It assigns A, B, and C in reverse cyclic order through X, Y, Z, and W, starting immediately before the omitted component. For example, if the selector omits Y, then A maps to X, B to W, and C to Z.</p>
+            <p><span data-copy="the-decoder-reconstructs-the-omitted-component">The decoder reconstructs the omitted component using the unit quaternion norm. It assigns A, B, and C in reverse cyclic order through X, Y, Z, and W, starting immediately before the omitted component. For example, if the selector omits Y, then A maps to X, B to W, and C to Z.</span></p>
 
-            <h4>Asset Lookup</h4>
-            <p>I disassembled the game's engine DLL using Cheat Engine and IDA, picked a virtual asset path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</p>
-            <p>Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</p>
-            <p>I worked out the lookup logic and gave my pseudocode to AI to implement the <button type="button" class="source-trigger" data-code="thy-source" aria-haspopup="dialog" aria-label="View thy parser source code">THY parser</button> and <button type="button" class="source-trigger" data-code="lookup-source" aria-haspopup="dialog" aria-label="View asset lookup source code">Asset lookup</button> functions.</p>
-            <p>I integrated my asset lookup implementation with the asset extraction code from <a href="https://github.com/NeoXtractor/NeoXtractor">NeoXtractor</a>.</p>
+            <h4><span data-copy="asset-lookup">Asset Lookup</span></h4>
+            <p><span data-copy="i-disassembled-the-game-s-engine">I disassembled the game's engine DLL using Cheat Engine and IDA, picked a virtual asset path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</span></p>
+            <p><span data-copy="searching-the-dll-for-strings-led">Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</span></p>
+            <p><span data-copy="i-worked-out-the-lookup-logic">I worked out the lookup logic and gave my pseudocode to AI to implement the</span> <button type="button" class="source-trigger" data-code="thy-source" aria-haspopup="dialog" aria-label="View thy parser source code"><span data-copy="thy-parser">THY parser</span></button> <span data-copy="and">and</span> <button type="button" class="source-trigger" data-code="lookup-source" aria-haspopup="dialog" aria-label="View asset lookup source code"><span data-copy="asset-lookup-alt">Asset lookup</span></button> <span data-copy="functions">functions.</span></p>
+            <p><span data-copy="i-integrated-my-asset-lookup-implementation">I integrated my asset lookup implementation with the asset extraction code from</span> <a href="https://github.com/NeoXtractor/NeoXtractor">NeoXtractor</a>.</p>
 
-            <h4>Prefab Binary Converter</h4>
-            <p>I had my own copies of the game's legacy XML prefabs. When the game switched to a new engine, it started using a binary XML format.</p>
-            <p><span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-community-definition">We</button><span class="term-definition" id="prefab-community-definition">People in the modding community.</span></span> spent a while editing the new prefab files in a hex editor and loading them into the game. Seeing how those edits changed the game gave me clues about what some of the key fields did and helped me reverse-engineer the format.</p>
-            <p>The first challenge was recognizing LEB128. I hadn't encountered it before, and its variable-length encoding made it harder to tell where one value ended and the next began.</p>
-            <p>The second challenge was recognizing that the XML hierarchy was stored in <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-bfs-definition">BFS</button><span class="term-definition" id="prefab-bfs-definition">Breadth-first search visits nodes one level at a time, starting from the root in a tree.</span></span> order. It took me months to figure out what that chunk of data represented.</p>
-            <p><strong>Binary Parser:</strong> <button type="button" class="source-trigger" data-code="prefab-parser-source" aria-haspopup="dialog" aria-label="View binary prefab parser source code">Source Code</button></p>
-            <p><strong>XML to Binary Converter:</strong> <button type="button" class="source-trigger" data-code="prefab-writer-source" aria-haspopup="dialog" aria-label="View XML to binary converter source code">Source Code</button></p>
-            <p>I submitted the prefab converter to <a href="https://github.com/NeoXtractor/NeoXtractor">NeoXtractor</a> as <a href="https://github.com/NeoXtractor/NeoXtractor/pull/34">pull request #34</a>.</p>
+            <h4><span data-copy="prefab-binary-converter">Prefab Binary Converter</span></h4>
+            <p><span data-copy="i-had-my-own-copies-of">I had my own copies of the game's legacy XML prefabs. When the game switched to a new engine, it started using a binary XML format.</span></p>
+            <p><span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-community-definition"><span data-copy="we">We</span></button><span class="term-definition" id="prefab-community-definition"><span data-copy="people-in-the-modding-community">People in the modding community.</span></span></span> <span data-copy="spent-a-while-editing-the-new">spent a while editing the new prefab files in a hex editor and loading them into the game. Seeing how those edits changed the game gave me clues about what some of the key fields did and helped me reverse-engineer the format.</span></p>
+            <p><span data-copy="the-first-challenge-was-recognizing-leb128">The first challenge was recognizing LEB128. I hadn't encountered it before, and its variable-length encoding made it harder to tell where one value ended and the next began.</span></p>
+            <p><span data-copy="the-second-challenge-was-recognizing-that">The second challenge was recognizing that the XML hierarchy was stored in</span> <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="prefab-bfs-definition">BFS</button><span class="term-definition" id="prefab-bfs-definition"><span data-copy="breadth-first-search-visits-nodes-one">Breadth-first search visits nodes one level at a time, starting from the root in a tree.</span></span></span> <span data-copy="order-it-took-me-months-to">order. It took me months to figure out what that chunk of data represented.</span></p>
+            <p><strong><span data-copy="binary-parser">Binary Parser:</span></strong> <button type="button" class="source-trigger" data-code="prefab-parser-source" aria-haspopup="dialog" aria-label="View binary prefab parser source code"><span data-copy="source-code">Source Code</span></button></p>
+            <p><strong><span data-copy="xml-to-binary-converter">XML to Binary Converter:</span></strong> <button type="button" class="source-trigger" data-code="prefab-writer-source" aria-haspopup="dialog" aria-label="View XML to binary converter source code"><span data-copy="source-code">Source Code</span></button></p>
+            <p><span data-copy="i-submitted-the-prefab-converter-to">I submitted the prefab converter to</span> <a href="https://github.com/NeoXtractor/NeoXtractor">NeoXtractor</a> <span data-copy="as">as</span> <a href="https://github.com/NeoXtractor/NeoXtractor/pull/34"><span data-copy="pull-request-34">pull request #34</span></a>.</p>
 
-            <h4>Mod Loader</h4>
-            <button type="button" class="source-trigger" id="unlock-mod-loader" aria-haspopup="dialog">Unlock Mod Loader Details</button>
-            <iframe id="mod-loader-content" title="Mod Loader details" sandbox hidden></iframe>
+            <h4><span data-copy="mod-loader-alt">Mod Loader</span></h4>
+            <button type="button" class="source-trigger" id="unlock-mod-loader" aria-haspopup="dialog"><span data-copy="unlock-mod-loader-details">Unlock Mod Loader Details</span></button>
+            <iframe id="mod-loader-content" title="Mod Loader details" sandbox hidden data-copy-title="mod-loader-details"></iframe>
           </details>
         </div>
       </details>
       <details class="technical-project">
-        <summary><h2>HLSL Analysis and Assembly Injection</h2></summary>
+        <summary><h2><span data-copy="hlsl-analysis-and-assembly-injection">HLSL Analysis and Assembly Injection</span></h2></summary>
         <div class="technical-project-content">
-          <p>I analyzed the game's pixel shader structure and injected HLSL assembly into a shader variant to blend between two textures in-game.</p>
-          <p><strong>Code Logic:</strong> The patch uses <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="migoto-definition">3DMigoto</button><span class="term-definition" id="migoto-definition">A general-purpose DirectX 11 modding tool.</span></span> (<a href="https://github.com/bo3b/3Dmigoto">bo3b/3Dmigoto on GitHub</a>). It matches pixel shader assembly that samples from texture register <code>t0</code> and binds the previous texture to <code>t50</code>. When the textures have matching dimensions, a frame counter drives a 60-frame blend from the previous texture to the new one.</p>
-          <p><button type="button" class="source-trigger" data-code="texture-blending-source" aria-haspopup="dialog" aria-label="View texture blending INI source code">Source Code</button></p>
+          <p><span data-copy="i-analyzed-the-game-s-pixel">I analyzed the game's pixel shader structure and injected HLSL assembly into a shader variant to blend between two textures in-game.</span></p>
+          <p><strong><span data-copy="code-logic">Code Logic:</span></strong> <span data-copy="the-patch-uses">The patch uses</span> <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="migoto-definition">3DMigoto</button><span class="term-definition" id="migoto-definition"><span data-copy="a-general-purpose-directx-11-modding">A general-purpose DirectX 11 modding tool.</span></span></span> (<a href="https://github.com/bo3b/3Dmigoto"><span data-copy="bo3b-3dmigoto-on-github">bo3b/3Dmigoto on GitHub</span></a><span data-copy="it-matches-pixel-shader-assembly-that">). It matches pixel shader assembly that samples from texture register</span> <code>t0</code> <span data-copy="and-binds-the-previous-texture-to">and binds the previous texture to</span> <code>t50</code><span data-copy="when-the-textures-have-matching-dimensions">. When the textures have matching dimensions, a frame counter drives a 60-frame blend from the previous texture to the new one.</span></p>
+          <p><button type="button" class="source-trigger" data-code="texture-blending-source" aria-haspopup="dialog" aria-label="View texture blending INI source code"><span data-copy="source-code">Source Code</span></button></p>
           <video controls playsinline preload="metadata" aria-label="HLSL assembly demonstration">
             <source src="assets/video/HLSL_Assembly.mp4" type="video/mp4">
-            <a href="assets/video/HLSL_Assembly.mp4">Open the demonstration video</a>
+            <a href="assets/video/HLSL_Assembly.mp4"><span data-copy="open-the-demonstration-video">Open the demonstration video</span></a>
           </video>
         </div>
       </details>
       <details class="technical-project">
-        <summary><h2>My Modding Documentations</h2></summary>
+        <summary><h2><span data-copy="my-modding-documentations">My Modding Documentations</span></h2></summary>
         <div class="technical-project-content">
-          <p class="gallery-note">This section features a selection of the modding documentation I wrote.</p>
+          <p class="gallery-note"><span data-copy="this-section-features-a-selection-of">This section features a selection of the modding documentation I wrote.</span></p>
           <ul>
-            <li><a href="https://docs.google.com/document/d/1KwF13S4HrqDLjYeicop5QN5UDecQEKmf5UVIbp0bJhA">3DMigoto Modding Guide for IDV</a></li>
-            <li><a href="https://docs.google.com/document/d/1YGsyHiz0kGDzgeY4xZThrspOgjvCoZp2c5zQG95Pf68/">Common 3DMigoto Issues</a></li>
+            <li><a href="https://docs.google.com/document/d/1KwF13S4HrqDLjYeicop5QN5UDecQEKmf5UVIbp0bJhA"><span data-copy="3dmigoto-modding-guide-for-idv">3DMigoto Modding Guide for IDV</span></a></li>
+            <li><a href="https://docs.google.com/document/d/1YGsyHiz0kGDzgeY4xZThrspOgjvCoZp2c5zQG95Pf68/"><span data-copy="common-3dmigoto-issues">Common 3DMigoto Issues</span></a></li>
             <li><a href="assets/screenshot/Mesh%20Finder%20Doc.png" target="_blank" rel="noopener">Mesh Finder v2</a></li>
             <li><a href="assets/screenshot/Bone%20Name%20Matcher%20Doc.png" target="_blank" rel="noopener">Bone Name Matcher</a></li>
           </ul>
@@ -117,27 +124,27 @@
     </section>
     <section id="artist" role="tabpanel" aria-labelledby="artist-tab" tabindex="0" hidden>
       <section class="gallery" aria-labelledby="gallery-title">
-        <h2 id="gallery-title">3D Model Showcase</h2>
-		<p>I'm not only the creator of IDVMI-Tools, but also a user of it! I'm both a developer and an artist, working with other artists.</p>
-        <p class="gallery-note">This showcase features a selection of my models. All models were created using <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="kitbashing-definition">kitbashing</button><span class="term-definition" id="kitbashing-definition">Creating a new model by combining and adapting parts from existing models.</span></span>.</p>
+        <h2 id="gallery-title"><span data-copy="3d-model-showcase">3D Model Showcase</span></h2>
+		<p><span data-copy="i-m-not-only-the-creator">I'm not only the creator of IDVMI-Tools, but also a user of it! I'm both a developer and an artist, working with other artists.</span></p>
+        <p class="gallery-note"><span data-copy="this-showcase-features-a-selection-of">This showcase features a selection of my models. All models were created using</span> <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="kitbashing-definition">kitbashing</button><span class="term-definition" id="kitbashing-definition"><span data-copy="creating-a-new-model-by-combining">Creating a new model by combining and adapting parts from existing models.</span></span></span><span class="kitbash-ending" data-copy="kitbash-ending">.</span></p>
         <div class="gallery-stage">
-          <button type="button" id="previous-art" aria-label="Previous artwork" disabled>‹</button>
+          <button type="button" id="previous-art" aria-label="Previous artwork" disabled data-copy-aria-label="previous-artwork">‹</button>
           <div class="gallery-cards"></div>
-          <button type="button" id="next-art" aria-label="Next artwork" disabled>›</button>
+          <button type="button" id="next-art" aria-label="Next artwork" disabled data-copy-aria-label="next-artwork">›</button>
         </div>
-        <p id="art-status" role="status">Loading artworks…</p>
+        <p id="art-status" role="status"><span data-copy="loading-artworks">Loading artworks…</span></p>
         <div class="gallery-actions" hidden>
-          <button type="button" id="art-source"><span aria-hidden="true">▧</span> Source</button>
-          <button type="button" id="art-designer"><span aria-hidden="true">✎</span> Designer</button>
+          <button type="button" id="art-source"><span aria-hidden="true">▧</span> <span data-copy="source">Source</span></button>
+          <button type="button" id="art-designer"><span aria-hidden="true">✎</span> <span data-copy="designer">Designer</span></button>
         </div>
-        <div class="gallery-filters" role="group" aria-label="Filter artworks">
-          <button type="button" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" data-filter="commissions" aria-pressed="false">Commissions Only</button>
-          <button type="button" data-filter="mine" aria-pressed="false">My Designs Only</button>
+        <div class="gallery-filters" role="group" aria-label="Filter artworks" data-copy-aria-label="filter-artworks">
+          <button type="button" data-filter="all" aria-pressed="true"><span data-copy="all">All</span></button>
+          <button type="button" data-filter="commissions" aria-pressed="false"><span data-copy="commissions-only">Commissions Only</span></button>
+          <button type="button" data-filter="mine" aria-pressed="false"><span data-copy="my-designs-only">My Designs Only</span></button>
         </div>
-        <dialog id="art-details" aria-label="Artwork details">
+        <dialog id="art-details" aria-label="Artwork details" data-copy-aria-label="artwork-details">
           <div id="art-details-body"></div>
-          <form method="dialog"><button>Close</button></form>
+          <form method="dialog"><button><span data-copy="close">Close</span></button></form>
         </dialog>
       </section>
     </section>
@@ -145,14 +152,14 @@
   <dialog class="term-dialog" aria-labelledby="term-title">
     <h2 id="term-title"></h2>
     <p id="term-description"></p>
-    <form method="dialog"><button style="text-align:center;">Close</button></form>
+    <form method="dialog"><button style="text-align:center;"><span data-copy="close">Close</span></button></form>
   </dialog>
   <dialog class="term-dialog code-dialog" aria-labelledby="code-title">
     <h2 id="code-title"></h2>
     <div class="code-dialog-content"></div>
-    <form method="dialog"><button>Close</button></form>
+    <form method="dialog"><button><span data-copy="close">Close</span></button></form>
   </dialog>
-<template id="collision-source" data-title="Collider generation">
+<template id="collision-source" data-title="Collider generation" data-copy-title="collider-generation">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def fit_neox_collision(points: list[Vector]) -&gt; dict[str, object]:
     minimum = Vector((
         min(point.x for point in points),
@@ -180,7 +187,7 @@
         "bound_radius": float(bound_radius),
     }</code></pre>
 </template>
-<template id="bone-mask-source" data-title="Bone usage bitmask">
+<template id="bone-mask-source" data-title="Bone usage bitmask" data-copy-title="bone-usage-bitmask-alt">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">bit_count = len(export_bone_order)
 byte_count = (bit_count + 7) // 8
 flags = bytearray(byte_count)
@@ -193,7 +200,7 @@ for bone_name in weighted_bone_names:
 
 return bit_count.to_bytes(4, "little") + bytes(flags)</code></pre>
 </template>
-<template id="matrix-source" data-title="Matrix conversion">
+<template id="matrix-source" data-title="Matrix conversion" data-copy-title="matrix-conversion">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">GAME_TO_BLENDER = axis_conversion(
     from_forward="Z",
     from_up="Y",
@@ -222,7 +229,7 @@ NEOX_TO_BLENDER_BONE_AXES = Matrix(
     edit_bone_matrix = rigid_global @ NEOX_TO_BLENDER_BONE_AXES
     return edit_bone_matrix, Vector(scale)</code></pre>
 </template>
-<template id="animation-source" data-title="Animation parser">
+<template id="animation-source" data-title="Animation parser" data-copy-title="animation-parser">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-imhex">#pragma endian little
 
 #pragma array_limit 65536
@@ -409,7 +416,7 @@ struct CPDAnimation {
 CPDAnimation file @ 0x0;
 </code></pre>
 </template>
-<template id="thy-source" data-title="THY parser">
+<template id="thy-source" data-title="THY parser" data-copy-title="thy-parser">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def _parse(self, *, validate_xxh32: bool) -&gt; None:
         reader = self.reader
         if reader.read(0, 4, "THFB magic") != b"THFB":
@@ -499,7 +506,7 @@ CPDAnimation file @ 0x0;
                 raise ParseError(f"Duplicate final Hash32 in THY table: 0x{key:08X}")
             self.hash_to_descriptor_index[key] = index</code></pre>
 </template>
-<template id="lookup-source" data-title="Asset lookup">
+<template id="lookup-source" data-title="Asset lookup" data-copy-title="asset-lookup-alt">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def lookup(self, path: str) -&gt; LookupResult:
         normalized = self.normalize_path(path)
         encoded = normalized.encode("utf-8")
@@ -545,17 +552,17 @@ CPDAnimation file @ 0x0;
         )</code></pre>
 </template>
   <dialog class="term-dialog" id="mod-loader-dialog" aria-labelledby="mod-loader-dialog-title">
-    <h2 id="mod-loader-dialog-title">Unlock Protected Information</h2>
-    <p class="gallery-note">Use the access link in my CV to unlock this content automatically.</p>
+    <h2 id="mod-loader-dialog-title"><span data-copy="unlock-protected-information">Unlock Protected Information</span></h2>
+    <p class="gallery-note"><span data-copy="use-the-access-link-in-my">Use the access link in my CV to unlock this content automatically.</span></p>
     <form id="mod-loader-password-form">
-      <label for="mod-loader-password">Password</label>
+      <label for="mod-loader-password"><span data-copy="password">Password</span></label>
       <input id="mod-loader-password" type="password" required autofocus>
       <p id="mod-loader-status" role="status"></p>
-      <button type="button" id="cancel-mod-loader">Cancel</button>
-      <button type="submit">Unlock</button>
+      <button type="button" id="cancel-mod-loader"><span data-copy="cancel">Cancel</span></button>
+      <button type="submit"><span data-copy="unlock">Unlock</span></button>
     </form>
   </dialog>
-<template id="texture-blending-source" data-title="Texture blending INI">
+<template id="texture-blending-source" data-title="Texture blending INI" data-copy-title="texture-blending-ini">
 <pre class="imhex-viewer" tabindex="0" aria-label="INI source code"><code class="language-ini">[ShaderRegexTransition]
 pre x50 = $transition_frame
 shader_model = ps_5_0
@@ -589,7 +596,7 @@ ${content}
 ${return}
 ; 60 is the frame count. The transition will long 1 second</code></pre>
 </template>
-<template id="prefab-parser-source" data-title="Binary Prefab Parser">
+<template id="prefab-parser-source" data-title="Binary Prefab Parser" data-copy-title="binary-prefab-parser">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def parseCustomBinFormat(filepath:os.PathLike) -&gt; tuple:
 
     with open(filepath, "rb") as f:
@@ -616,7 +623,7 @@ ${return}
 
     return element_tags, attribute_map</code></pre>
 </template>
-<template id="prefab-writer-source" data-title="XML to Binary Converter">
+<template id="prefab-writer-source" data-title="XML to Binary Converter" data-copy-title="xml-to-binary-converter-alt">
 <pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def xml_to_custom_bin(bfs_list:list) -&gt; bytearray:
     output = bytearray()
 

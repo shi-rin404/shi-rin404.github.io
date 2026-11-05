@@ -3,6 +3,7 @@
   color-scheme: dark;
   --bar: #252e38;
   --surface: #171d25;
+  --workspace-surface: #1e2530;
   --active-surface: #1e2630;
   --border: #465463;
   --inactive-surface: #1E262F;
@@ -143,7 +144,10 @@ body {
 }
 
 .workspace {
+  background: var(--workspace-surface);
+  background-clip: content-box;
   padding-inline: var(--section-padding);
+  padding-block-end: var(--section-padding);
 }
 
 [role="tabpanel"] {
@@ -537,5 +541,38 @@ body {
 }
 
 #identity-prompt[hidden] {
+  display: none;
+}
+
+.language-switch {
+  display: flex;
+  gap: 0.375rem;
+  justify-self: end;
+  align-self: start;
+}
+
+.language-switch button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--inactive-border);
+  background: var(--active-surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.language-switch button[aria-pressed="true"] {
+  background: #c3cdeb;
+  color: #171d25;
+  font-weight: 600;
+}
+
+@media (max-width: 40rem) {
+  .language-switch {
+    grid-row: 1;
+  }
+}
+
+html:not([lang="tr"]) .translation-glossary {
   display: none;
 }

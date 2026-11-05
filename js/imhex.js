@@ -43,7 +43,7 @@
     if (!trigger) return;
 
     const template = document.getElementById(trigger.dataset.code);
-    dialog.querySelector('#code-title').textContent = template.dataset.title;
+    dialog.querySelector('#code-title').textContent = window.portfolioText(template.dataset.copyTitle, template.dataset.title);
     content.replaceChildren(template.content.cloneNode(true));
     highlightCode(content);
     dialog.showModal();

@@ -148,7 +148,7 @@ function linkToOriginal(image) {
   link.href = image.src;
   link.target = '_blank';
   link.rel = 'noopener';
-  link.setAttribute('aria-label', image.alt + ' (opens in a new tab)');
+  link.setAttribute('aria-label', image.alt + window.portfolioText('opens-in-a-new-tab', ' (opens in a new tab)'));
   link.append(image);
   return link;
 }
@@ -159,8 +159,8 @@ function renderArtwork() {
   actions.hidden = !artwork;
   previous.disabled = next.disabled = visible.length < 2;
   status.textContent = artwork
-    ? (selected + 1) + ' of ' + visible.length
-    : 'No artworks match this filter.';
+    ? (document.documentElement.lang === 'tr' ? (selected + 1) + ' / ' + visible.length : (selected + 1) + ' of ' + visible.length)
+    : window.portfolioText('no-artworks-match-this-filter', 'No artworks match this filter.');
   if (!artwork) return;
 
   source.disabled = artwork.sources.length === 0;
@@ -169,7 +169,7 @@ function renderArtwork() {
     const item = visible[(selected + offset + visible.length) % visible.length];
     const image = new Image();
     image.src = item.path + '3D.png';
-    image.alt = offset === 0 ? '3D artwork of ' + item.name : '';
+    image.alt = offset === 0 ? (document.documentElement.lang === 'tr' ? item.name + ' 3B modeli' : '3D artwork of ' + item.name) : '';
     const card = offset === 0 ? linkToOriginal(image) : image;
     card.className = offset === 0 ? 'art-current' : offset < 0 ? 'art-left' : 'art-right';
     cards.append(card);
@@ -183,7 +183,7 @@ function moveArtwork(offset) {
 }
 
 function showDetails(title, ...content) {
-  details.setAttribute('aria-label', title);
+  details.setAttribute('aria-label', window.portfolioText(title.toLowerCase(), title));
   detailsBody.replaceChildren(...content);
   details.showModal();
 }
@@ -196,7 +196,7 @@ source.addEventListener('click', () => {
   const images = artwork.sources.map((file, index) => {
     const image = new Image();
     image.src = artwork.path + encodeURIComponent(file);
-    image.alt = artwork.name + ' source image ' + (index + 1);
+    image.alt = artwork.name + (document.documentElement.lang === 'tr' ? ' kaynak görseli ' : ' source image ') + (index + 1);
     return linkToOriginal(image);
   });
   showDetails('Source', ...images);
@@ -204,7 +204,7 @@ source.addEventListener('click', () => {
 
 gallery.querySelector('#art-designer').addEventListener('click', () => {
   const credit = document.createElement('p');
-  credit.textContent = visible[selected].credit || 'No designer info';
+  credit.textContent = visible[selected].credit || window.portfolioText('no-designer-info', 'No designer info');
   showDetails('Designer', credit);
 });
 
@@ -219,4 +219,5 @@ for (const filter of filters) {
   });
 }
 
+document.addEventListener('portfolio-language-change', renderArtwork);
 renderArtwork();
