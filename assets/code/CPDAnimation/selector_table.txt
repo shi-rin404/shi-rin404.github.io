@@ -1,0 +1,8 @@
+X, Y, Z, W = 0, 1, 2, 3
+
+PAYLOAD_COMPONENTS = {
+    0: (W, Z, Y),
+    1: (X, W, Z),
+    2: (Y, X, W),
+    3: (Z, Y, X),
+}

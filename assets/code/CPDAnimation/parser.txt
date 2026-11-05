@@ -1,0 +1,184 @@
+#pragma endian little
+
+#pragma array_limit 65536
+#pragma pattern_limit 1000000
+
+import type.float16;
+import std.math;
+
+// Packed quaternion component decoder
+fn decode_component(u32 code) {
+    return ((2.0 * double(code) / 1023.0) - 1.0)
+           / std::math::sqrt(2.0);
+};
+
+struct f16_4d_axis {
+    type::float16 x;
+    type::float16 y;
+    type::float16 z;
+    type::float16 w;
+};
+
+struct f16_2d_axis {
+    type::float16 x;
+    type::float16 y;
+};
+
+struct PositionFrame {
+    u16 frame_id;
+    type::float16 _3d_axis[3];
+};
+
+struct ScaleFrame {
+    u16 frame_id;
+    type::float16 _3d_axis[3];
+};
+
+struct RotationFrame {
+    u16 frame_id;
+    u32 packed_4d_rotation;
+
+    // Upper 2 bits select the omitted component.
+    u32 selector = (packed_4d_rotation >> 30) & 0x03;
+
+    // Extract three 10-bit components.
+    double a = decode_component(
+        (packed_4d_rotation >> 0) & 0x3FF
+    );
+    double b = decode_component(
+        (packed_4d_rotation >> 10) & 0x3FF
+    );
+    double c = decode_component(
+        (packed_4d_rotation >> 20) & 0x3FF
+    );
+
+    // Reconstruct the omitted component.
+    double missing = std::math::sqrt(
+        std::math::max(
+            0.0,
+            1.0 - (a*a + b*b + c*c)
+        )
+    );
+
+    // Component mapping:
+    // selector 0: [X=missing, Y=c, Z=b, W=a]
+    // selector 1: [X=a, Y=missing, Z=c, W=b]
+    // selector 2: [X=b, Y=a, Z=missing, W=c]
+    // selector 3: [X=c, Y=b, Z=a, W=missing]
+
+    double qx = selector == 0 ? missing :
+                selector == 1 ? a :
+                selector == 2 ? b : c;
+
+    double qy = selector == 0 ? c :
+                selector == 1 ? missing :
+                selector == 2 ? a : b;
+
+    double qz = selector == 0 ? b :
+                selector == 1 ? c :
+                selector == 2 ? missing : a;
+
+    double qw = selector == 0 ? a :
+                selector == 1 ? b :
+                selector == 2 ? c : missing;
+
+    // Match Python's Quaternion.normalize().
+    double magnitude = std::math::sqrt(
+        qx*qx + qy*qy + qz*qz + qw*qw
+    );
+
+    // Export decoded values without consuming file bytes.
+    float x = float(qx / magnitude) [[export]];
+    float y = float(qy / magnitude) [[export]];
+    float z = float(qz / magnitude) [[export]];
+    float w = float(qw / magnitude) [[export]];
+};
+
+struct PositionTrack {
+    u16 frame_count;
+    PositionFrame frame[frame_count];
+};
+
+struct ScaleTrack {
+    u16 frame_count;
+    ScaleFrame frame[frame_count];
+};
+
+struct RotationTrack {
+    u16 frame_count;
+    RotationFrame frame[frame_count];
+};
+
+struct Header {
+    float fps;
+    float duration;
+    u8 loop;
+    u8 has_position_keys;
+    u8 has_rotation_keys;
+    u8 has_scale_keys;
+    u8 pack_prs_flags;
+    u8 accumulation_flags[0x5];
+};
+
+struct Data3D {
+    PositionTrack track_pos;
+    ScaleTrack track_scale;
+    RotationTrack track_rotation;
+};
+
+struct string {
+    u32 length;
+    char text[length];
+};
+
+struct Name {
+    u32 string_count;
+    string text[string_count];
+};
+
+struct CPDAnimation {
+    char signature[0x08];
+    u64 file_size;
+    u32 version;
+    u32 header_offset;
+    u128 checksum;
+
+    u32 skeleton_path_length;
+    char skeleton_path[skeleton_path_length];
+
+    // HEAD
+    char header_start[0x04];
+    u32 header_length;
+    Header header;
+    u8 alignment_header[header_length - sizeof(header)];
+
+    // DATA
+    char data_start[0x04];
+    u32 data_length;
+
+    // NAME immediately follows DATA.
+    // Read its string count ahead of time.
+    // NAME = 4-byte tag + 4-byte length + u32 string_count.
+    u32 name_string_count @ ($ + data_length + 0x08)
+        [[hidden]];
+
+    u8 data_const;
+
+    // First NAME string is the animation name.
+    // Remaining strings correspond to bone tracks.
+    Data3D data[name_string_count - 1];
+
+    // Preserve the remaining DATA alignment.
+    u8 alignment_data[
+        data_length - 1 - sizeof(data)
+    ];
+
+    // NAME
+    char name_start[0x04];
+    u32 name_length;
+    Name name;
+
+    u8 alignment_name[name_length - sizeof(name)];
+};
+
+CPDAnimation file @ 0x0;

@@ -9,12 +9,17 @@
   <script src="js/tabs.js" defer></script>
   <script src="js/carousel.js?v=d01fb58b641299ec" defer></script>
   <script src="js/terms.js" defer></script>
+  <script src="js/imhex.js" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.7.54/dist/zip-full.min.js"></script>
+  <script defer src="js/mod-loader.js"></script>
 </head>
 <body>
   <section class="intro" aria-labelledby="about-heading">
     <div>
       <h1 id="about-heading">About Me</h1>
       <ul>
+		<li>I known as <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="nickname-definition">shirin404</button><span class="term-definition" id="nickname-definition">Also known as Cookie in IDV Modding Community</span></span> in internet. <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="irl-name-definition">Real name can be found in my CV.</button><span class="term-definition" id="irl-name-definition">I can't put my real name internet for security purposes</span></span></li>
         <li>4th-year Information Technologies student aiming to become a Technical Artist</li>
         <li>Developing game development and modding tools</li>
         <li>Founded a game modding community</li>
@@ -29,46 +34,73 @@
   </div>
   <main class="workspace">
     <section id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
-      <details class="technical-project" open>
+      <details class="technical-project">
         <summary><h2>Blender Addon &amp; Asset Lookup &amp; Mod Loader</h2></summary>
         <div class="technical-project-content">
-          <p><strong>Blender Addon:</strong> Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
-            <strong>Mod Loader:</strong> Injects custom assets into the game.</p>
-          <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
-            <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
-            <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
-          </video>
+          <details class="project-section" open>
+            <summary><h3>Summary</h3></summary>
+            <p><strong>Blender Addon:</strong> Retrieves assets via lookup, imports/exports meshes and animations between Blender and the game's custom binary formats.<br>
+              <strong>Mod Loader:</strong> Injects custom assets into the game.</p>
+            <video controls playsinline preload="metadata" aria-label="Blender Addon and Mod Loader demonstration">
+              <source src="assets/video/ModdingPortfolio.mp4" type="video/mp4">
+              <a href="assets/video/ModdingPortfolio.mp4">Open the demonstration video</a>
+            </video>
+          </details>
+          <details class="project-section">
+            <summary><h3>Detailed</h3></summary>
+            <h4>Mesh Importer/Exporter</h4>
+            <p>Other people had already reverse-engineered much of the game's mesh format. I worked on three pieces:</p>
+            <ul>
+              <li><strong>Bone-based collider cylinders.</strong> IDVMI-Tools generates custom colliders in the game's binary format on export. <a href="assets/screenshot/BoundaryInfo.png" target="_blank" rel="noopener">See Collider View</a> · <button type="button" class="source-trigger" data-code="collision-source" aria-haspopup="dialog" aria-label="View collider generation source code">Source Code</button></li>
+              <li><strong>LOD data.</strong> I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</li>
+              <li><strong>Bone usage bitmask.</strong> The engine uses this mask to optimize which bones it processes. IDVMI-Tools builds the mask on export, so I can enable bones without copying the mask from an original mesh. <button type="button" class="source-trigger" data-code="bone-mask-source" aria-haspopup="dialog" aria-label="View bone usage bitmask source code">Source Code</button></li>
+            </ul>
+            <p>The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores them in row-major order, while the AI-generated suggestions I tried assumed column-major order. I had to learn how the transforms work to get the matrix and axis conversions right. <button type="button" class="source-trigger" data-code="matrix-source" aria-haspopup="dialog" aria-label="View matrix conversion source code">Source Code</button></p>
+
+            <h4>Animation Importer/Exporter</h4>
+            <p>I reverse-engineered about 95% of the animation format. <button type="button" class="source-trigger" data-code="animation-source" aria-haspopup="dialog" aria-label="View animation parser source code">Source Code</button></p>
+            <p>Each packed quaternion is a little-endian 32-bit word. From the most significant bits to the least significant:</p>
+            <ul>
+              <li>2 bits for the <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="quaternion-selector-definition">selector</button><span class="term-definition" id="quaternion-selector-definition">An index from 0 to 3 that identifies the omitted component (X, Y, Z, or W). The decoder reconstructs it from the unit quaternion norm.</span></span></li>
+              <li>10 bits each for components C, B, and A, in that order</li>
+            </ul>
+            <p>I decode each stored component from its 10-bit integer value <em>c</em> using:</p>
+            <div class="math-display">\[v = \frac{2(c/1023)-1}{\sqrt{2}}\]</div>
+            <p>The decoder reconstructs the omitted component using the unit quaternion norm. It assigns A, B, and C in reverse cyclic order through X, Y, Z, and W, starting immediately before the omitted component. For example, if the selector omits Y, then A maps to X, B to W, and C to Z.</p>
+
+            <h4>Asset Lookup</h4>
+            <p>I disassembled the game's engine DLL using Cheat Engine and IDA, picked a virtual asset path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</p>
+            <p>Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</p>
+            <p>I worked out the lookup logic and gave my pseudocode to AI to implement the <button type="button" class="source-trigger" data-code="thy-source" aria-haspopup="dialog" aria-label="View thy parser source code">THY parser</button> and <button type="button" class="source-trigger" data-code="lookup-source" aria-haspopup="dialog" aria-label="View asset lookup source code">Asset lookup</button> functions.</p>
+
+            <h4>Mod Loader</h4>
+            <button type="button" class="source-trigger" id="unlock-mod-loader" aria-haspopup="dialog">Unlock Mod Loader Details</button>
+            <iframe id="mod-loader-content" title="Mod Loader details" sandbox hidden></iframe>
+          </details>
         </div>
       </details>
-      <details class="technical-project" open>
-        <summary><h2>HLSL and Assembly Analysis</h2></summary>
+      <details class="technical-project">
+        <summary><h2>HLSL Analysis and Assembly Injection</h2></summary>
         <div class="technical-project-content">
-          <p>I analyzed the game's pixel shader structure and injected HLSL assembly into <strong>every pixel shader in the game</strong> without causing a crash.</p>
-          <p><strong>Code Logic:</strong> The code selects an unused texture register and manages it through <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="migoto-definition">3DMigoto</button><span class="term-definition" id="migoto-definition">A general-purpose DirectX 11 modding tool.</span></span> (<a href="https://github.com/bo3b/3Dmigoto">bo3b/3Dmigoto on GitHub</a>). If the reserved register is in use, the code reads a frame counter from the script and uses it to transition between two textures.</p>
-          <p><strong>Fun Fact:</strong> I wrote the assembly code without AI assistance.</p>
+          <p>I analyzed the game's pixel shader structure and injected HLSL assembly into <strong>the majority of the game's pixel shaders</strong> without causing a crash.</p>
+          <p><strong>Code Logic:</strong> The patch uses <span class="technical-term"><button type="button" aria-haspopup="dialog" aria-describedby="migoto-definition">3DMigoto</button><span class="term-definition" id="migoto-definition">A general-purpose DirectX 11 modding tool.</span></span> (<a href="https://github.com/bo3b/3Dmigoto">bo3b/3Dmigoto on GitHub</a>). It matches pixel shader assembly that samples from texture register <code>t0</code> and binds the previous texture to <code>t50</code>. When the textures have matching dimensions, a frame counter drives a 60-frame blend from the previous texture to the new one.</p>
+          <p><strong>Fun Fact:</strong> I wrote the assembly code without AI assistance. <a href="assets/screenshot/HLSL_Assembly.png" target="_blank" rel="noopener">Source Code</a></p>
           <video controls playsinline preload="metadata" aria-label="HLSL assembly demonstration">
             <source src="assets/video/HLSL_Assembly.mp4" type="video/mp4">
             <a href="assets/video/HLSL_Assembly.mp4">Open the demonstration video</a>
           </video>
-          <a href="assets/screenshot/HLSL_Assembly.png" target="_blank" rel="noopener" aria-label="Open full-resolution HLSL assembly screenshot in a new tab">
-            <img class="project-screenshot" src="assets/screenshot/HLSL_Assembly.png" alt="HLSL assembly analysis screenshot" loading="lazy">
-          </a>
         </div>
       </details>
-      <details class="technical-project" open>
+      <details class="technical-project">
         <summary><h2>My Modding Documentations</h2></summary>
         <div class="technical-project-content">
           <p class="gallery-note">This section features a selection of the modding documentation I wrote.</p>
           <ul>
             <li><a href="https://docs.google.com/document/d/1KwF13S4HrqDLjYeicop5QN5UDecQEKmf5UVIbp0bJhA">3DMigoto Modding Guide for IDV</a></li>
             <li><a href="https://docs.google.com/document/d/1YGsyHiz0kGDzgeY4xZThrspOgjvCoZp2c5zQG95Pf68/">Common 3DMigoto Issues</a></li>
+            <li><a href="assets/screenshot/Mesh%20Finder%20Doc.png" target="_blank" rel="noopener">Mesh Finder v2</a></li>
+            <li><a href="assets/screenshot/Bone%20Name%20Matcher%20Doc.png" target="_blank" rel="noopener">Bone Name Matcher</a></li>
           </ul>
-          <a href="assets/screenshot/Mesh%20Finder%20Doc.png" target="_blank" rel="noopener" aria-label="Open full-resolution Mesh Finder documentation screenshot in a new tab">
-            <img class="project-screenshot" src="assets/screenshot/Mesh%20Finder%20Doc.png" alt="Mesh Finder documentation screenshot" loading="lazy">
-          </a>
-          <a href="assets/screenshot/Bone%20Name%20Matcher%20Doc.png" target="_blank" rel="noopener" aria-label="Open full-resolution Bone Name Matcher documentation screenshot in a new tab">
-            <img class="project-screenshot" src="assets/screenshot/Bone%20Name%20Matcher%20Doc.png" alt="Bone Name Matcher documentation screenshot" loading="lazy">
-          </a>
         </div>
       </details>
     </section>
@@ -103,6 +135,413 @@
     <h2 id="term-title"></h2>
     <p id="term-description"></p>
     <form method="dialog"><button style="text-align:center;">Close</button></form>
+  </dialog>
+  <dialog class="term-dialog code-dialog" aria-labelledby="code-title">
+    <h2 id="code-title"></h2>
+    <div class="code-dialog-content"></div>
+    <form method="dialog"><button>Close</button></form>
+  </dialog>
+<template id="collision-source" data-title="Collider generation">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def fit_neox_collision(points: list[Vector]) -&gt; dict[str, object]:
+    minimum = Vector((
+        min(point.x for point in points),
+        min(point.y for point in points),
+        min(point.z for point in points),
+    ))
+    maximum = Vector((
+        max(point.x for point in points),
+        max(point.y for point in points),
+        max(point.z for point in points),
+    ))
+    center = (minimum + maximum) * 0.5
+    offsets = [point - center for point in points]
+
+    collision_x = max(abs(offset.x) for offset in offsets)
+    collision_y = max(abs(offset.y) for offset in offsets)
+    collision_z = max(abs(offset.z) for offset in offsets)
+    bound_radius = max(offset.length for offset in offsets)
+
+    return {
+        "center": tuple(float(value) for value in center),
+        "collision_x": max(float(collision_x), COLLIDER_EPSILON),
+        "collision_y": max(float(collision_y), COLLIDER_EPSILON),
+        "collision_z": max(float(collision_z), COLLIDER_EPSILON),
+        "bound_radius": float(bound_radius),
+    }</code></pre>
+</template>
+<template id="bone-mask-source" data-title="Bone usage bitmask">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">bit_count = len(export_bone_order)
+byte_count = (bit_count + 7) // 8
+flags = bytearray(byte_count)
+
+for bone_name in weighted_bone_names:
+	bone_index = bone_name_to_index[bone_name]
+	byte_index = bone_index // 8
+	bit_index = bone_index % 8
+	flags[byte_index] |= 1 &lt;&lt; bit_index
+
+return bit_count.to_bytes(4, "little") + bytes(flags)</code></pre>
+</template>
+<template id="matrix-source" data-title="Matrix conversion">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">GAME_TO_BLENDER = axis_conversion(
+    from_forward="Z",
+    from_up="Y",
+    to_forward="-Y",
+    to_up="Z",
+).to_4x4()
+BLENDER_TO_GAME = GAME_TO_BLENDER.inverted()
+
+NEOX_TO_BLENDER_BONE_AXES = Matrix(
+    (
+        (0.0, 1.0, 0.0, 0.0),
+        (-1.0, 0.0, 0.0, 0.0),
+        (0.0, 0.0, 1.0, 0.0),
+        (0.0, 0.0, 0.0, 1.0),
+    )
+)</code></pre>
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def source_row_matrix_to_blender_global(matrix_4, game_to_blender: Matrix) -&gt; Matrix:
+    rows = matrix_4.tolist() if hasattr(matrix_4, "tolist") else matrix_4
+    source_global = Matrix(rows).transposed()
+    return game_to_blender @ source_global</code></pre>
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def make_edit_bone_rest_matrix(converted_global: Matrix) -&gt; tuple[Matrix, Vector]:
+    location, rotation, scale = converted_global.decompose()
+    rotation.normalize()
+
+    rigid_global = Matrix.Translation(location) @ rotation.to_matrix().to_4x4()
+    edit_bone_matrix = rigid_global @ NEOX_TO_BLENDER_BONE_AXES
+    return edit_bone_matrix, Vector(scale)</code></pre>
+</template>
+<template id="animation-source" data-title="Animation parser">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-imhex">#pragma endian little
+
+#pragma array_limit 65536
+#pragma pattern_limit 1000000
+
+import type.float16;
+import std.math;
+
+// Packed quaternion component decoder
+fn decode_component(u32 code) {
+    return ((2.0 * double(code) / 1023.0) - 1.0)
+           / std::math::sqrt(2.0);
+};
+
+struct f16_4d_axis {
+    type::float16 x;
+    type::float16 y;
+    type::float16 z;
+    type::float16 w;
+};
+
+struct f16_2d_axis {
+    type::float16 x;
+    type::float16 y;
+};
+
+struct PositionFrame {
+    u16 frame_id;
+    type::float16 _3d_axis[3];
+};
+
+struct ScaleFrame {
+    u16 frame_id;
+    type::float16 _3d_axis[3];
+};
+
+struct RotationFrame {
+    u16 frame_id;
+    u32 packed_4d_rotation;
+
+    // Upper 2 bits select the omitted component.
+    u32 selector = (packed_4d_rotation &gt;&gt; 30) &amp; 0x03;
+
+    // Extract three 10-bit components.
+    double a = decode_component(
+        (packed_4d_rotation &gt;&gt; 0) &amp; 0x3FF
+    );
+    double b = decode_component(
+        (packed_4d_rotation &gt;&gt; 10) &amp; 0x3FF
+    );
+    double c = decode_component(
+        (packed_4d_rotation &gt;&gt; 20) &amp; 0x3FF
+    );
+
+    // Reconstruct the omitted component.
+    double missing = std::math::sqrt(
+        std::math::max(
+            0.0,
+            1.0 - (a*a + b*b + c*c)
+        )
+    );
+
+    // Component mapping:
+    // selector 0: [X=missing, Y=c, Z=b, W=a]
+    // selector 1: [X=a, Y=missing, Z=c, W=b]
+    // selector 2: [X=b, Y=a, Z=missing, W=c]
+    // selector 3: [X=c, Y=b, Z=a, W=missing]
+
+    double qx = selector == 0 ? missing :
+                selector == 1 ? a :
+                selector == 2 ? b : c;
+
+    double qy = selector == 0 ? c :
+                selector == 1 ? missing :
+                selector == 2 ? a : b;
+
+    double qz = selector == 0 ? b :
+                selector == 1 ? c :
+                selector == 2 ? missing : a;
+
+    double qw = selector == 0 ? a :
+                selector == 1 ? b :
+                selector == 2 ? c : missing;
+
+    // Match Python's Quaternion.normalize().
+    double magnitude = std::math::sqrt(
+        qx*qx + qy*qy + qz*qz + qw*qw
+    );
+
+    // Export decoded values without consuming file bytes.
+    float x = float(qx / magnitude) [[export]];
+    float y = float(qy / magnitude) [[export]];
+    float z = float(qz / magnitude) [[export]];
+    float w = float(qw / magnitude) [[export]];
+};
+
+struct PositionTrack {
+    u16 frame_count;
+    PositionFrame frame[frame_count];
+};
+
+struct ScaleTrack {
+    u16 frame_count;
+    ScaleFrame frame[frame_count];
+};
+
+struct RotationTrack {
+    u16 frame_count;
+    RotationFrame frame[frame_count];
+};
+
+struct Header {
+    float fps;
+    float duration;
+    u8 loop;
+    u8 has_position_keys;
+    u8 has_rotation_keys;
+    u8 has_scale_keys;
+    u8 pack_prs_flags;
+    u8 accumulation_flags[0x5];
+};
+
+struct Data3D {
+    PositionTrack track_pos;
+    ScaleTrack track_scale;
+    RotationTrack track_rotation;
+};
+
+struct string {
+    u32 length;
+    char text[length];
+};
+
+struct Name {
+    u32 string_count;
+    string text[string_count];
+};
+
+struct CPDAnimation {
+    char signature[0x08];
+    u64 file_size;
+    u32 version;
+    u32 header_offset;
+    u128 checksum;
+
+    u32 skeleton_path_length;
+    char skeleton_path[skeleton_path_length];
+
+    // HEAD
+    char header_start[0x04];
+    u32 header_length;
+    Header header;
+    u8 alignment_header[header_length - sizeof(header)];
+
+    // DATA
+    char data_start[0x04];
+    u32 data_length;
+
+    // NAME immediately follows DATA.
+    // Read its string count ahead of time.
+    // NAME = 4-byte tag + 4-byte length + u32 string_count.
+    u32 name_string_count @ ($ + data_length + 0x08)
+        [[hidden]];
+
+    u8 data_const;
+
+    // First NAME string is the animation name.
+    // Remaining strings correspond to bone tracks.
+    Data3D data[name_string_count - 1];
+
+    // Preserve the remaining DATA alignment.
+    u8 alignment_data[
+        data_length - 1 - sizeof(data)
+    ];
+
+    // NAME
+    char name_start[0x04];
+    u32 name_length;
+    Name name;
+
+    u8 alignment_name[name_length - sizeof(name)];
+};
+
+CPDAnimation file @ 0x0;
+</code></pre>
+</template>
+<template id="thy-source" data-title="THY parser">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def _parse(self, *, validate_xxh32: bool) -&gt; None:
+        reader = self.reader
+        if reader.read(0, 4, "THFB magic") != b"THFB":
+            raise ParseError(f"Invalid THY magic in {self.thy_path}")
+
+        self.stored_payload_xxh32 = reader.u32(4, "THFB payload XXH32")
+        self.calculated_payload_xxh32 = xxh32(
+            self.data[self.THFB_HEADER_SIZE :],
+            seed=self.xxh32_seed,
+        )
+        self.payload_xxh32_valid = (
+            self.stored_payload_xxh32 == self.calculated_payload_xxh32
+        )
+        if validate_xxh32 and not self.payload_xxh32_valid:
+            raise ParseError(
+                "THY payload XXH32 validation failed: "
+                f"stored=0x{self.stored_payload_xxh32:08X}, "
+                f"calculated=0x{self.calculated_payload_xxh32:08X}"
+            )
+
+        flatbuffer_start = self.THFB_HEADER_SIZE
+        outer_root = flatbuffer_start + reader.u32(
+            flatbuffer_start,
+            "outer FlatBuffer root offset",
+        )
+        reader.require(outer_root, 4, "outer FlatBuffer root")
+
+        type_field_offset = fb_field_offset(reader, outer_root, 4)
+        if type_field_offset == 0:
+            raise ParseError("Outer FlatBuffer union type is missing")
+        union_type = reader.u8(outer_root + type_field_offset, "outer union type")
+        payload_root = fb_required_pointer(reader, outer_root, 6, "THX/THXX payload root")
+
+        if union_type == self.TYPE_THXX:
+            self.variant_name = "THXX"
+            self.descriptor_stride = 0x20
+            self.descriptor_hash_offset = 0x10
+        elif union_type == self.TYPE_THX:
+            self.variant_name = "THX"
+            self.descriptor_stride = 0x18
+            self.descriptor_hash_offset = 0x08
+        else:
+            raise ParseError(f"Unsupported THY union type: {union_type}")
+
+        self.descriptor_vector = fb_required_pointer(
+            reader,
+            payload_root,
+            4,
+            "descriptor vector",
+        )
+        metadata_table = fb_required_pointer(
+            reader,
+            payload_root,
+            6,
+            "lookup metadata table",
+        )
+        final_hash_vector = fb_required_pointer(reader, metadata_table, 4, "final Hash32 vector")
+        collision_vector = fb_required_pointer(reader, metadata_table, 6, "collision vector")
+        seed_vector = fb_required_pointer(reader, metadata_table, 8, "seed vector")
+
+        self.seeds = read_u32_vector(reader, seed_vector, "seed vector")
+        collision_values = read_u32_vector(reader, collision_vector, "collision vector")
+        final_hashes = read_u32_vector(reader, final_hash_vector, "final Hash32 vector")
+        self.descriptor_count = reader.u32(self.descriptor_vector, "descriptor count")
+        reader.require(
+            self.descriptor_vector + 4,
+            self.descriptor_count * self.descriptor_stride,
+            "descriptor data",
+        )
+
+        if not self.seeds:
+            raise ParseError("THY seed vector is empty")
+        if self.descriptor_count != len(final_hashes):
+            raise ParseError(
+                f"Hash/descriptor count mismatch: hashes={len(final_hashes)}, "
+                f"descriptors={self.descriptor_count}"
+            )
+
+        self.collision_keys = set(collision_values)
+        if len(self.collision_keys) != len(collision_values):
+            raise ParseError("Collision vector contains duplicate values")
+        if self.collision_keys and len(self.seeds) &lt; 2:
+            raise ParseError("Collision vector exists but no fallback seed is present")
+
+        for index, key in enumerate(final_hashes):
+            if key in self.hash_to_descriptor_index:
+                raise ParseError(f"Duplicate final Hash32 in THY table: 0x{key:08X}")
+            self.hash_to_descriptor_index[key] = index</code></pre>
+</template>
+<template id="lookup-source" data-title="Asset lookup">
+<pre class="imhex-viewer" tabindex="0" aria-label="Source code"><code class="language-python">def lookup(self, path: str) -&gt; LookupResult:
+        normalized = self.normalize_path(path)
+        encoded = normalized.encode("utf-8")
+        primary_seed = self.seeds[0]
+        primary_key = xxh32(encoded, primary_seed)
+
+        used_fallback = primary_key in self.collision_keys
+        fallback_seed: int | None = None
+        if used_fallback:
+            fallback_seed = self.seeds[1]
+            final_key = xxh32(encoded, fallback_seed)
+        else:
+            final_key = primary_key
+
+        descriptor_index = self.hash_to_descriptor_index.get(final_key)
+        if descriptor_index is None:
+            detail = ""
+            if len(self.seeds) &gt;= 2:
+                alternate_key = xxh32(encoded, self.seeds[1])
+                alternate_index = self.hash_to_descriptor_index.get(alternate_key)
+                detail = f"; alternate_key=0x{alternate_key:08X}, alternate_index={alternate_index}"
+            raise PathNotFoundError(
+                f"Path is not present in THY table: {normalized!r}; "
+                f"primary=0x{primary_key:08X}, selected=0x{final_key:08X}{detail}"
+            )
+
+        descriptor = self.descriptor_vector + 4 + descriptor_index * self.descriptor_stride
+        hash128 = self.reader.read(
+            descriptor + self.descriptor_hash_offset,
+            16,
+            f"descriptor[{descriptor_index}].hash128",
+        )
+        return LookupResult(
+            original_path=path,
+            normalized_path=normalized,
+            primary_seed=primary_seed,
+            fallback_seed=fallback_seed,
+            primary_key=primary_key,
+            final_key=final_key,
+            used_fallback=used_fallback,
+            descriptor_index=descriptor_index,
+            hash128=hash128,
+        )</code></pre>
+</template>
+  <dialog class="term-dialog" id="mod-loader-dialog" aria-labelledby="mod-loader-dialog-title">
+    <h2 id="mod-loader-dialog-title">Unlock Mod Loader Details</h2>
+    <form id="mod-loader-password-form">
+      <label for="mod-loader-password">Password</label>
+      <input id="mod-loader-password" type="password" required autofocus>
+      <p id="mod-loader-status" role="status"></p>
+      <button type="button" id="cancel-mod-loader">Cancel</button>
+      <button type="submit">Unlock</button>
+    </form>
   </dialog>
 </body>
 </html>

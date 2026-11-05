@@ -1,0 +1,7 @@
+def make_edit_bone_rest_matrix(converted_global: Matrix) -> tuple[Matrix, Vector]:
+    location, rotation, scale = converted_global.decompose()
+    rotation.normalize()
+
+    rigid_global = Matrix.Translation(location) @ rotation.to_matrix().to_4x4()
+    edit_bone_matrix = rigid_global @ NEOX_TO_BLENDER_BONE_AXES
+    return edit_bone_matrix, Vector(scale)

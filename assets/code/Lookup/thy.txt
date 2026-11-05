@@ -1,0 +1,88 @@
+def _parse(self, *, validate_xxh32: bool) -> None:
+        reader = self.reader
+        if reader.read(0, 4, "THFB magic") != b"THFB":
+            raise ParseError(f"Invalid THY magic in {self.thy_path}")
+
+        self.stored_payload_xxh32 = reader.u32(4, "THFB payload XXH32")
+        self.calculated_payload_xxh32 = xxh32(
+            self.data[self.THFB_HEADER_SIZE :],
+            seed=self.xxh32_seed,
+        )
+        self.payload_xxh32_valid = (
+            self.stored_payload_xxh32 == self.calculated_payload_xxh32
+        )
+        if validate_xxh32 and not self.payload_xxh32_valid:
+            raise ParseError(
+                "THY payload XXH32 validation failed: "
+                f"stored=0x{self.stored_payload_xxh32:08X}, "
+                f"calculated=0x{self.calculated_payload_xxh32:08X}"
+            )
+
+        flatbuffer_start = self.THFB_HEADER_SIZE
+        outer_root = flatbuffer_start + reader.u32(
+            flatbuffer_start,
+            "outer FlatBuffer root offset",
+        )
+        reader.require(outer_root, 4, "outer FlatBuffer root")
+
+        type_field_offset = fb_field_offset(reader, outer_root, 4)
+        if type_field_offset == 0:
+            raise ParseError("Outer FlatBuffer union type is missing")
+        union_type = reader.u8(outer_root + type_field_offset, "outer union type")
+        payload_root = fb_required_pointer(reader, outer_root, 6, "THX/THXX payload root")
+
+        if union_type == self.TYPE_THXX:
+            self.variant_name = "THXX"
+            self.descriptor_stride = 0x20
+            self.descriptor_hash_offset = 0x10
+        elif union_type == self.TYPE_THX:
+            self.variant_name = "THX"
+            self.descriptor_stride = 0x18
+            self.descriptor_hash_offset = 0x08
+        else:
+            raise ParseError(f"Unsupported THY union type: {union_type}")
+
+        self.descriptor_vector = fb_required_pointer(
+            reader,
+            payload_root,
+            4,
+            "descriptor vector",
+        )
+        metadata_table = fb_required_pointer(
+            reader,
+            payload_root,
+            6,
+            "lookup metadata table",
+        )
+        final_hash_vector = fb_required_pointer(reader, metadata_table, 4, "final Hash32 vector")
+        collision_vector = fb_required_pointer(reader, metadata_table, 6, "collision vector")
+        seed_vector = fb_required_pointer(reader, metadata_table, 8, "seed vector")
+
+        self.seeds = read_u32_vector(reader, seed_vector, "seed vector")
+        collision_values = read_u32_vector(reader, collision_vector, "collision vector")
+        final_hashes = read_u32_vector(reader, final_hash_vector, "final Hash32 vector")
+        self.descriptor_count = reader.u32(self.descriptor_vector, "descriptor count")
+        reader.require(
+            self.descriptor_vector + 4,
+            self.descriptor_count * self.descriptor_stride,
+            "descriptor data",
+        )
+
+        if not self.seeds:
+            raise ParseError("THY seed vector is empty")
+        if self.descriptor_count != len(final_hashes):
+            raise ParseError(
+                f"Hash/descriptor count mismatch: hashes={len(final_hashes)}, "
+                f"descriptors={self.descriptor_count}"
+            )
+
+        self.collision_keys = set(collision_values)
+        if len(self.collision_keys) != len(collision_values):
+            raise ParseError("Collision vector contains duplicate values")
+        if self.collision_keys and len(self.seeds) < 2:
+            raise ParseError("Collision vector exists but no fallback seed is present")
+
+        for index, key in enumerate(final_hashes):
+            if key in self.hash_to_descriptor_index:
+                raise ParseError(f"Duplicate final Hash32 in THY table: 0x{key:08X}")
+            self.hash_to_descriptor_index[key] = index

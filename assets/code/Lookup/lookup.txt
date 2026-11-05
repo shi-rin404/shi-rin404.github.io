@@ -1,0 +1,43 @@
+def lookup(self, path: str) -> LookupResult:
+        normalized = self.normalize_path(path)
+        encoded = normalized.encode("utf-8")
+        primary_seed = self.seeds[0]
+        primary_key = xxh32(encoded, primary_seed)
+
+        used_fallback = primary_key in self.collision_keys
+        fallback_seed: int | None = None
+        if used_fallback:
+            fallback_seed = self.seeds[1]
+            final_key = xxh32(encoded, fallback_seed)
+        else:
+            final_key = primary_key
+
+        descriptor_index = self.hash_to_descriptor_index.get(final_key)
+        if descriptor_index is None:
+            detail = ""
+            if len(self.seeds) >= 2:
+                alternate_key = xxh32(encoded, self.seeds[1])
+                alternate_index = self.hash_to_descriptor_index.get(alternate_key)
+                detail = f"; alternate_key=0x{alternate_key:08X}, alternate_index={alternate_index}"
+            raise PathNotFoundError(
+                f"Path is not present in THY table: {normalized!r}; "
+                f"primary=0x{primary_key:08X}, selected=0x{final_key:08X}{detail}"
+            )
+
+        descriptor = self.descriptor_vector + 4 + descriptor_index * self.descriptor_stride
+        hash128 = self.reader.read(
+            descriptor + self.descriptor_hash_offset,
+            16,
+            f"descriptor[{descriptor_index}].hash128",
+        )
+        return LookupResult(
+            original_path=path,
+            normalized_path=normalized,
+            primary_seed=primary_seed,
+            fallback_seed=fallback_seed,
+            primary_key=primary_key,
+            final_key=final_key,
+            used_fallback=used_fallback,
+            descriptor_index=descriptor_index,
+            hash128=hash128,
+        )

@@ -1,0 +1,4 @@
+def source_row_matrix_to_blender_global(matrix_4, game_to_blender: Matrix) -> Matrix:
+    rows = matrix_4.tolist() if hasattr(matrix_4, "tolist") else matrix_4
+    source_global = Matrix(rows).transposed()
+    return game_to_blender @ source_global

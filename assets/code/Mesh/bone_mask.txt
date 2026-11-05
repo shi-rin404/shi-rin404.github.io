@@ -1,0 +1,11 @@
+bit_count = len(export_bone_order)
+byte_count = (bit_count + 7) // 8
+flags = bytearray(byte_count)
+
+for bone_name in weighted_bone_names:
+	bone_index = bone_name_to_index[bone_name]
+	byte_index = bone_index // 8
+	bit_index = bone_index % 8
+	flags[byte_index] |= 1 << bit_index
+
+return bit_count.to_bytes(4, "little") + bytes(flags)
