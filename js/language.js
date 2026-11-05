@@ -24,6 +24,36 @@
     return copy;
   }
 
+  function renderText(element, value, copy, slotIndex) {
+    if (!value.includes('[[')) {
+      element.textContent = value;
+      return;
+    }
+
+    const parts = value.split(/\[\[(asset|binary)(?:\|([^\]]+))?\]\]/);
+    const content = document.createDocumentFragment();
+    for (let index = 0; index < parts.length; index += 3) {
+      content.append(parts[index]);
+      const term = parts[index + 1];
+      if (!term) break;
+
+      const wrapper = document.createElement('span');
+      wrapper.className = 'technical-term';
+      const definition = document.createElement('span');
+      definition.className = 'term-definition';
+      definition.id = 'copy-term-' + slotIndex + '-' + index;
+      definition.textContent = copy.get('term-' + term);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = parts[index + 2] ?? term;
+      button.setAttribute('aria-haspopup', 'dialog');
+      button.setAttribute('aria-describedby', definition.id);
+      wrapper.append(button, definition);
+      content.append(wrapper);
+    }
+    element.replaceChildren(content);
+  }
+
   async function setLanguage(language) {
     const request = ++requestNumber;
     status.textContent = '';
@@ -34,9 +64,9 @@
 
       activeCopy = copy;
       document.documentElement.lang = language;
-      for (const element of textSlots) {
-        if (copy.has(element.dataset.copy)) element.textContent = copy.get(element.dataset.copy);
-      }
+      textSlots.forEach((element, index) => {
+        if (copy.has(element.dataset.copy)) renderText(element, copy.get(element.dataset.copy), copy, index);
+      });
       for (const element of labelSlots) {
         for (const attribute of ['aria-label', 'title']) {
           const key = element.getAttribute('data-copy-' + attribute);
