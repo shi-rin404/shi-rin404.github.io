@@ -557,7 +557,20 @@ body {
   align-self: start;
 }
 
-.language-switch button {
+.github-link {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.github-link img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+
   min-width: 44px;
   min-height: 44px;
   border: 1px solid var(--inactive-border);
