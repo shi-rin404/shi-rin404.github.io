@@ -40,7 +40,7 @@
   <span data-copy="the-biggest-challenge-for-me-was">The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes.</span>
   <span data-copy="animation-importer-exporter">Animation Importer/Exporter</span>
   <span data-copy="i-decoded-the-animation-format-except">I decoded most of the animation format, except for a suspected checksum field and the purpose of several fields provisionally labeled as position, rotation, and scale keys.</span>
-  <span data-copy="each-packed-quaternion-is-a-little">Each packed [[quaternion|quaternion]] is a little-endian 32-bit word. From the most significant bits to the least significant:</span>
+  <span data-copy="each-packed-quaternion-is-a-little">Each packed [[quaternion|quaternion]] is a [[little-endian|little-endian]] 32-bit word. From the most significant bits to the least significant:</span>
   <span data-copy="2-bits-for-the">2 bits for the</span>
   <span data-copy="selector">selector</span>
   <span data-copy="an-index-from-0-to-3">An index from 0 to 3 that identifies the omitted component (X, Y, Z, or W). The decoder reconstructs it from the unit quaternion norm.</span>
@@ -50,7 +50,7 @@
   <span data-copy="the-decoder-reconstructs-the-omitted-component">The decoder reconstructs the omitted component using the unit quaternion norm. It assigns A, B, and C in reverse cyclic order through X, Y, Z, and W, starting immediately before the omitted component. For example, if the selector omits Y, then A maps to X, B to W, and C to Z.</span>
   <span data-copy="asset-lookup">Asset Lookup</span>
   <span data-copy="i-disassembled-the-game-s-engine">I disassembled the game's engine DLL using </span>
-  <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> and IDA, picked a virtual [[asset|asset]] path, and traced it backward. I found that the engine hashes the path with seeded XXH32, even though the archives use 128-bit hashes.</span>
+  <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> and [[ida|IDA]], picked a virtual [[asset|asset]] path, and traced it backward. I found that the engine hashes the path with seeded [[xxh32|XXH32]], even though the archives use 128-bit hashes.</span>
   <span data-copy="searching-the-dll-for-strings-led">Searching the DLL for strings led me to the lookup file. It maps the 32-bit key to a descriptor containing the 128-bit hash and uses a fallback seed for keys listed in the collision table.</span>
   <span data-copy="i-worked-out-the-lookup-logic">I worked out the lookup logic and gave my pseudocode to AI to implement the</span>
   <span data-copy="thy-parser">THY parser</span>
@@ -63,7 +63,7 @@
   <span data-copy="we">We</span>
   <span data-copy="people-in-the-modding-community">People in the modding community.</span>
   <span data-copy="spent-a-while-editing-the-new">spent a while editing the new prefab files in a hex editor and loading them into the game. Seeing how those edits changed the game gave me clues about what some of the key fields did and helped me reverse-engineer the format.</span>
-  <span data-copy="the-first-challenge-was-recognizing-leb128">The first challenge was recognizing LEB128. I hadn't encountered it before, and its variable-length encoding made it harder to tell where one value ended and the next began.</span>
+  <span data-copy="the-first-challenge-was-recognizing-leb128">The first challenge was recognizing [[leb128|LEB128]]. I hadn't encountered it before, and its variable-length encoding made it harder to tell where one value ended and the next began.</span>
   <span data-copy="the-second-challenge-was-recognizing-that">The second challenge was recognizing that the XML hierarchy was stored in</span>
   <span data-copy="breadth-first-search-visits-nodes-one">Breadth-first search visits nodes one level at a time, starting from the root in a tree.</span>
   <span data-copy="order-it-took-me-months-to">order. It took me months to figure out what that chunk of data represented.</span>
@@ -133,4 +133,8 @@
   <span data-copy="term-quaternion">A four-component mathematical representation of 3D rotations.</span>
   <span data-copy="term-prefab">A reusable template for a game object or group of objects.</span>
   <span data-copy="term-shader">A GPU program that computes the color or other output of a pixel.</span>
+  <span data-copy="term-ida">IDA is a tool for disassembling and analyzing compiled programs.</span>
+  <span data-copy="term-xxh32">XXH32 is a fast hash function that produces a 32-bit value.</span>
+  <span data-copy="term-leb128">LEB128 encodes integers in a variable number of bytes, using fewer bytes for smaller values.</span>
+  <span data-copy="term-little-endian">In little-endian byte order, the least significant byte of a multibyte value is stored first.</span>
 </template>

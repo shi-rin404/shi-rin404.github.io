@@ -40,7 +40,7 @@
   <span data-copy="the-biggest-challenge-for-me-was">En zor kısım oyunun 4×4 kemik matrislerini dönüştürmekti. Oyun, dinlenme pozunun dönüşümlerini satır öncelikli düzende saklıyor. Kaynak matrislerin transpozunu alıp Blender’ın koordinat sistemine dönüştürüyor, Edit Mode’daki kemik eksenleri için ayrıca düzeltme uyguluyorum.</span>
   <span data-copy="animation-importer-exporter">Animasyon İçe ve Dışa Aktarma</span>
   <span data-copy="i-decoded-the-animation-format-except">Animasyon biçimini çözdüm. Checksum olduğunu düşündüğüm alanı henüz doğrulamadım. Geçici olarak position, rotation ve scale key diye adlandırdığım alanların işlevi de belirsiz.</span>
-  <span data-copy="each-packed-quaternion-is-a-little">Her paketlenmiş [[quaternion]], little-endian düzende saklanan 32 bitlik bir sözcük. Bitler en anlamlıdan en az anlamlıya doğru şöyle sıralanıyor.</span>
+  <span data-copy="each-packed-quaternion-is-a-little">Her paketlenmiş [[quaternion]], [[little-endian|little-endian]] düzende saklanan 32 bitlik bir sözcük. Bitler en anlamlıdan en az anlamlıya doğru şöyle sıralanıyor.</span>
   <span data-copy="2-bits-for-the">2 bit:</span>
   <span data-copy="selector">selector</span>
   <span data-copy="an-index-from-0-to-3">Atlanan X, Y, Z veya W bileşenini belirten 0 ile 3 arasında bir indis. Çözücü, bu bileşeni birim quaternion normundan hesaplar.</span>
@@ -50,7 +50,7 @@
   <span data-copy="the-decoder-reconstructs-the-omitted-component">Çözücü, atlanan bileşeni birim quaternion normundan hesaplıyor. A, B ve C’yi atlanan bileşenin hemen öncesinden başlayıp X, Y, Z, W dizisinde geriye doğru döngüsel olarak yerleştiriyor. Örneğin Y atlandıysa A, X’e, B, W’ye ve C, Z’ye karşılık geliyor.</span>
   <span data-copy="asset-lookup">Asset Arama</span>
   <span data-copy="i-disassembled-the-game-s-engine"></span>
-  <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> ve IDA ile oyun motorunun DLL dosyasını inceledim. Bir sanal [[asset]] yolu seçip geriye doğru izledim. Arşivler 128 bitlik hash kullanırken motorun yolu bir seed ile XXH32 üzerinden hash’lediğini buldum.</span>
+  <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> ve [[ida|IDA]] ile oyun motorunun DLL dosyasını inceledim. Bir sanal [[asset]] yolu seçip geriye doğru izledim. Arşivler 128 bitlik hash kullanırken motorun yolu bir seed ile [[xxh32|XXH32]] üzerinden hash’lediğini buldum.</span>
   <span data-copy="searching-the-dll-for-strings-led">DLL’deki metinleri tararken arama dosyasını buldum. Dosya, 32 bitlik anahtarı 128 bitlik hash’i içeren kayda eşliyor ve çakışma tablosundaki anahtarlar için ikinci bir seed kullanıyor.</span>
   <span data-copy="i-worked-out-the-lookup-logic">Arama mantığını çözdüm ve sözde kodumu yapay zekâya vererek şu iki işlevi kodlamasını sağladım:</span>
   <span data-copy="thy-parser">THY ayrıştırıcısı</span>
@@ -63,7 +63,7 @@
   <span data-copy="we">Biz</span>
   <span data-copy="people-in-the-modding-community">Modlama topluluğundaki kişiler.</span>
   <span data-copy="spent-a-while-editing-the-new">bir süre yeni prefab dosyalarını hex editörde düzenleyip oyuna yükledik. Değişikliklerin oyundaki etkisini görmek, bazı alanların işlevini anlamama ve biçimi çözmeme yardımcı oldu.</span>
-  <span data-copy="the-first-challenge-was-recognizing-leb128">İlk zorluk LEB128 kodlamasını tanımaktı. Daha önce karşılaşmamıştım ve değerlerin değişken uzunlukta olması, bir değerin nerede bitip diğerinin nerede başladığını anlamayı zorlaştırdı.</span>
+  <span data-copy="the-first-challenge-was-recognizing-leb128">İlk zorluk [[leb128|LEB128]] kodlamasını tanımaktı. Daha önce karşılaşmamıştım ve değerlerin değişken uzunlukta olması, bir değerin nerede bitip diğerinin nerede başladığını anlamayı zorlaştırdı.</span>
   <span data-copy="the-second-challenge-was-recognizing-that">İkinci zorluk, XML hiyerarşisinin</span>
   <span data-copy="breadth-first-search-visits-nodes-one">Genişlik öncelikli arama, bir ağacın kökünden başlayarak düğümleri seviye seviye dolaşır.</span>
   <span data-copy="order-it-took-me-months-to">sırasıyla saklandığını fark etmekti. O veri bloğunun neyi temsil ettiğini çözmem aylar sürdü.</span>
@@ -134,4 +134,8 @@
   <span data-copy="term-prefab">Oyunda tekrar kullanılabilen nesne veya nesne grubu şablonu.</span>
   <span data-copy="term-shader">Ekrana çizilen bir pikselin rengini hesaplayan GPU programı.</span>
   <span data-copy="term-register">Bu bağlamda, shader’ın bir dokuya erişmek için kullandığı numaralı kaynak yuvası.</span>
+  <span data-copy="term-ida">IDA, derlenmiş programları incelemek ve makine kodunu assembly olarak okumak için kullanılan bir araçtır.</span>
+  <span data-copy="term-xxh32">XXH32, veriden 32 bitlik bir değer üreten hızlı bir hash fonksiyonudur.</span>
+  <span data-copy="term-leb128">LEB128, tam sayıları değişken sayıda baytla kodlar. Küçük değerler daha az bayt kaplar.</span>
+  <span data-copy="term-little-endian">Little-endian düzende, çok baytlı bir değerin en düşük anlamlı baytı önce saklanır.</span>
 </template>

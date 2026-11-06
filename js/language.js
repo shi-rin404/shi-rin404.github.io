@@ -30,7 +30,7 @@
       return;
     }
 
-    const parts = value.split(/\[\[(asset|binary|mesh|collider|quaternion|prefab|shader|register)(?:\|([^\]]+))?\]\]/);
+    const parts = value.split(/\[\[(asset|binary|mesh|collider|quaternion|prefab|shader|register|ida|xxh32|leb128|little-endian)(?:\|([^\]]+))?\]\]/);
     const content = document.createDocumentFragment();
     for (let index = 0; index < parts.length; index += 3) {
       content.append(parts[index]);
