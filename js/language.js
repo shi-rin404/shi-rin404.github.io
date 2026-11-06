@@ -12,7 +12,7 @@
   async function loadCopy(language) {
     if (catalogs.has(language)) return catalogs.get(language);
 
-    const response = await fetch(language + '.html');
+    const response = await fetch('lang/' + language + '.html');
     if (!response.ok) throw new Error('Could not load language content');
 
     const documentFragment = new DOMParser().parseFromString(await response.text(), 'text/html');
