@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#252e38">
   <title data-copy="portfolio-technical-artist-tools-pipeline">Portfolio | Technical Artist (Tools & Pipeline)</title>
   <link rel="stylesheet" href="css/styles.css?v=f502d93c9aa1">
-  <script src="js/language.js?v=6e3162e07ed0" defer></script>
+  <script src="js/language.js?v=5404ed27313b" defer></script>
   <script src="js/tabs.js" defer></script>
   <script src="js/carousel.js?v=2f0d325c57e1" defer></script>
   <script src="js/terms.js?v=b711c6eab255" defer></script>
@@ -59,7 +59,7 @@
             <p><span data-copy="other-people-had-already-reverse-engineered">Other people had already reverse-engineered much of the game's mesh format. I reverse-engineered three parts of the format:</span></p>
             <ul>
               <li><strong><span data-copy="bone-based-collider-cylinders">Bone-based collider cylinders.</span></strong> <span data-copy="idvmi-tools-generates-custom-colliders-in">IDVMI-Tools generates custom colliders in the game's binary format on export.</span> <a href="assets/screenshot/BoundaryInfo.png" target="_blank" rel="noopener"><span data-copy="see-collider-view">See Collider View</span></a> · <button type="button" class="source-trigger" data-code="collision-source" aria-haspopup="dialog" aria-label="View collider generation source code"><span data-copy="source-code">Source Code</span></button></li>
-              <li><strong><span data-copy="lod-data">LOD data.</span></strong> <span data-copy="i-identified-the-table-s-position">I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</span></li>
+              <li><strong><span data-copy="lod-data">LoD data.</span></strong> <span data-copy="i-identified-the-table-s-position">I identified the table's position and length. My tool keeps the raw data on import and writes it back on export.</span></li>
               <li><strong><span data-copy="bone-usage-bitmask">Bone usage bitmask.</span></strong> <span data-copy="the-engine-uses-this-mask-to">The engine uses this mask to optimize which bones it processes. IDVMI-Tools builds the mask on export, so I can enable bones without copying the mask from an original mesh.</span> <button type="button" class="source-trigger" data-code="bone-mask-source" aria-haspopup="dialog" aria-label="View bone usage bitmask source code"><span data-copy="source-code">Source Code</span></button></li>
             </ul>
             <p><span data-copy="the-biggest-challenge-for-me-was">The biggest challenge for me was converting the game's 4×4 bone matrices. The game stores its rest transforms in row-major order. I transpose the source matrices, convert them into Blender's coordinate system, and apply a separate correction for Blender's edit-bone axes.</span> <button type="button" class="source-trigger" data-code="matrix-source" aria-haspopup="dialog" aria-label="View matrix conversion source code"><span data-copy="source-code">Source Code</span></button></p>
