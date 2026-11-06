@@ -7,6 +7,7 @@ document.addEventListener('click', event => {
   const definition = document.getElementById(term.getAttribute('aria-describedby'));
   termDialog.querySelector('#term-title').textContent = term.textContent;
   termDialog.querySelector('#term-description').textContent = definition.textContent;
+  termDialog.querySelector('#term-norm-equation').hidden = term.dataset.term !== 'quaternion-norm';
   termDialog.showModal();
 });
 

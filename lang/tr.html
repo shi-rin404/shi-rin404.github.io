@@ -47,7 +47,7 @@
   <span data-copy="10-bits-each-for-components-c">Sırasıyla C, B ve A bileşenlerinin her biri için 10 bit</span>
   <span data-copy="i-decode-each-stored-component-from">Her bileşeni, saklanan 10 bitlik</span>
   <span data-copy="using">tam sayı değerinden şu formülle hesaplıyorum.</span>
-  <span data-copy="the-decoder-reconstructs-the-omitted-component">Çözücü, atlanan bileşeni birim quaternion normundan hesaplıyor. A, B ve C’yi atlanan bileşenin hemen öncesinden başlayıp X, Y, Z, W dizisinde geriye doğru döngüsel olarak yerleştiriyor. Örneğin Y atlandıysa A, X’e, B, W’ye ve C, Z’ye karşılık geliyor.</span>
+  <span data-copy="the-decoder-reconstructs-the-omitted-component">Çözücü, atlanan bileşeni [[quaternion-norm|birim quaternion normu]] ile hesaplıyor. A, B ve C’yi atlanan bileşenin hemen öncesinden başlayıp X, Y, Z, W dizisinde geriye doğru döngüsel olarak yerleştiriyor. Örneğin Y atlandıysa A, X’e, B, W’ye ve C, Z’ye karşılık geliyor.</span>
   <span data-copy="asset-lookup">Asset Arama</span>
   <span data-copy="i-disassembled-the-game-s-engine"></span>
   <span data-copy="i-disassembled-the-game-s-engine-after-cheat-engine"> ve [[ida|IDA]] ile oyun motorunun DLL dosyasını inceledim. Bir sanal [[asset]] yolu seçip geriye doğru izledim. Arşivler 128 bitlik hash kullanırken motorun yolu bir seed ile [[xxh32|XXH32]] üzerinden hash’lediğini buldum.</span>
@@ -139,4 +139,5 @@
   <span data-copy="term-leb128">LEB128, tam sayıları değişken sayıda baytla kodlar. Küçük değerler daha az bayt kaplar.</span>
   <span data-copy="term-little-endian">Little-endian düzende, çok baytlı bir değerin en düşük anlamlı baytı önce saklanır.</span>
   <span data-copy="term-lod">Level of detail, yani ayrıntı düzeyi. Oyunlar, örneğin model kameradan uzaktayken modelin daha basit bir sürümünü kullanır.</span>
+  <span data-copy="term-quaternion-norm">Birim quaternion’ın uzunluğu 1’dir. Üç bileşen biliniyorsa norm denklemi, eksik bileşenin mutlak değerini verir.</span>
 </template>

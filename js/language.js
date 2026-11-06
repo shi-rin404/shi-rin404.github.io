@@ -30,7 +30,7 @@
       return;
     }
 
-    const parts = value.split(/\[\[(asset|binary|mesh|collider|quaternion|prefab|shader|register|ida|xxh32|leb128|little-endian|lod)(?:\|([^\]]+))?\]\]/);
+    const parts = value.split(/\[\[(asset|binary|mesh|collider|quaternion|prefab|shader|register|ida|xxh32|leb128|little-endian|lod|quaternion-norm)(?:\|([^\]]+))?\]\]/);
     const content = document.createDocumentFragment();
     for (let index = 0; index < parts.length; index += 3) {
       content.append(parts[index]);
@@ -45,6 +45,7 @@
       definition.textContent = copy.get('term-' + term);
       const button = document.createElement('button');
       button.type = 'button';
+      button.dataset.term = term;
       button.textContent = parts[index + 2] ?? term;
       button.setAttribute('aria-haspopup', 'dialog');
       button.setAttribute('aria-describedby', definition.id);
