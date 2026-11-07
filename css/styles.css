@@ -570,7 +570,7 @@ body {
   object-fit: contain;
 }
 
-
+.language-switch button {
   min-width: 44px;
   min-height: 44px;
   border: 1px solid var(--inactive-border);
